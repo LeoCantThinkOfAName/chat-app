@@ -1,0 +1,44 @@
+Arguments: 
+  /home/cookie/.nvm/versions/node/v12.16.1/bin/node /home/cookie/.nvm/versions/node/v12.16.1/bin/yarn add -W -D concrrently
+
+PATH: 
+  /home/cookie/.gvm/pkgsets/go1.14/global/bin:/home/cookie/.gvm/gos/go1.14/bin:/home/cookie/.gvm/pkgsets/go1.14/global/overlay/bin:/home/cookie/.gvm/bin:/home/cookie/.gvm/bin:/home/cookie/.gvm/pkgsets/go1.14/global/bin:/home/cookie/.gvm/gos/go1.14/bin:/home/cookie/.npm-global/bin:/home/cookie/.local/bin:/home/cookie/.gvm/pkgsets/go1.14/global/bin:/home/cookie/.gvm/gos/go1.14/bin:/home/cookie/.gvm/pkgsets/go1.14/global/overlay/bin:/home/cookie/.gvm/bin:/home/cookie/.gvm/bin:/home/cookie/.nvm/versions/node/v12.16.1/bin:/bin:/bin:/home/cookie/.npm-global/bin:/home/cookie/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/c/Python27/:/c/Python27/Scripts:/c/WINDOWS/system32:/c/WINDOWS:/c/WINDOWS/System32/Wbem:/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/c/WINDOWS/System32/OpenSSH/:/c/Program Files/dotnet/:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/:/c/Program Files/nodejs/:/c/ProgramData/chocolatey/bin:/c/Program Files/Docker/Docker/resources/bin:/c/ProgramData/DockerDesktop/version-bin:/c/Users/i7851/AppData/Local/Microsoft/WindowsApps:/c/Users/i7851/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/i7851/AppData/Local/hyper/app-2.1.2/resources/bin:/c/Users/i7851/AppData/Roaming/npm:/c/Users/i7851/AppData/Local/Android/Sdk/platform-tools
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  12.16.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/concrrently: Not found
+      at Request.params.callback [as _callback] (/home/cookie/.nvm/versions/node/v12.16.1/lib/node_modules/yarn/lib/cli.js:66987:18)
+      at Request.self.callback (/home/cookie/.nvm/versions/node/v12.16.1/lib/node_modules/yarn/lib/cli.js:140748:22)
+      at Request.emit (events.js:311:20)
+      at Request.<anonymous> (/home/cookie/.nvm/versions/node/v12.16.1/lib/node_modules/yarn/lib/cli.js:141720:10)
+      at Request.emit (events.js:311:20)
+      at IncomingMessage.<anonymous> (/home/cookie/.nvm/versions/node/v12.16.1/lib/node_modules/yarn/lib/cli.js:141642:12)
+      at Object.onceWrapper (events.js:417:28)
+      at IncomingMessage.emit (events.js:323:22)
+      at endReadableNT (_stream_readable.js:1204:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
+
+npm manifest: 
+  {
+  	"name": "root",
+  	"private": true,
+  	"workspaces": [ "packages/*" ],
+  	"scripts": {},
+  	"devDependencies": {
+  		"lerna": "^3.22.1"
+  	}
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

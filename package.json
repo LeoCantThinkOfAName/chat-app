@@ -1,0 +1,17 @@
+{
+	"name": "root",
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	],
+	"scripts": {
+    "dev": "yarn concurrently -n shared,feathers,react -c magenta,green,cyan \"yarn dev:shared\" \"yarn dev:server\" \"yarn dev:client\"",
+    "dev:shared": "yarn workspace @chat-app/shared start",
+    "dev:server": "yarn workspace @chat-app/server dev",
+    "dev:client": "yarn workspace @chat-app/client start"
+  },
+	"devDependencies": {
+		"concurrently": "^5.2.0",
+		"lerna": "^3.22.1"
+	}
+}

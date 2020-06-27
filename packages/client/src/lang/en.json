@@ -1,0 +1,19 @@
+{
+	"general": {
+		"title": "Chatter",
+		"menu": {
+			"Home": "Home",
+			"Settings": "Settings",
+			"Chat": "Chat",
+			"Profile": "Profile"
+		},
+		"ui": {
+			"search": {
+				"contact": "Search Contact"
+      },
+      "button": {
+        "startChattingWith": "Start Chatting With\n"
+      }
+		}
+	}
+}
