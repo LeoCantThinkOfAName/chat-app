@@ -1,6 +1,11 @@
 {
 	"general": {
-		"title": "Chatter",
+		"title": {
+			"app": "Chatter",
+			"page": {
+				"settings": "Settings"
+			}
+		},
 		"menu": {
 			"Home": "Home",
 			"Settings": "Settings",
@@ -9,11 +14,19 @@
 		},
 		"ui": {
 			"search": {
-				"contact": "Search Contact"
-      },
-      "button": {
-        "startChattingWith": "Start Chatting With\n"
-      }
+				"contact": "Search Contact",
+				"languages": "Select Language"
+			},
+			"button": {
+				"startChattingWith": "Start Chatting With\n"
+			},
+			"switch": {
+				"darkMode": "Toggle Dark Mode"
+			}
+		},
+		"languages": {
+			"en": "English",
+			"zh-TW": "Traditional Chinese (Taiwan)"
 		}
 	}
 }

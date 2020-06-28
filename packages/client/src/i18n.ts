@@ -4,6 +4,9 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import en from './lang/en.json';
 import zhTw from './lang/zh-TW.json';
 
+export type languageTuple = 'en' | 'zh-TW';
+export const AvailableLanguages: languageTuple[] = [ 'en', 'zh-TW' ];
+
 const resources = {
 	en: {
 		translation: en,

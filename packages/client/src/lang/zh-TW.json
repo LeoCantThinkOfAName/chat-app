@@ -1,3 +1,32 @@
 {
-  "hello": "nihao"
+	"general": {
+		"title": {
+			"app": "Chatter",
+			"page": {
+				"settings": "設定"
+			}
+		},
+		"menu": {
+			"Home": "Home",
+			"Settings": "Settings",
+			"Chat": "Chat",
+			"Profile": "Profile"
+		},
+		"ui": {
+			"search": {
+				"contact": "Search Contact",
+				"languages": "Select Language"
+			},
+			"button": {
+				"startChattingWith": "Start Chatting With\n"
+			},
+			"switch": {
+				"darkMode": "Toggle Dark Mode"
+			}
+		},
+		"languages": {
+			"en": "English",
+			"zh-TW": "中文 (台灣)"
+		}
+	}
 }

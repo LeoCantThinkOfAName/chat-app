@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const Header: React.FC = () => {
 	const classes = useStyles();
 	const { t } = useTranslation();
+	const appTitle = t('general.title.app');
 
 	return (
 		<React.Fragment>
@@ -61,7 +62,7 @@ const Header: React.FC = () => {
 				<AppBar position="fixed" className={classes.appBar}>
 					<Toolbar className={classes.toolbar}>
 						<div className={classes.main}>
-							<img src={logo} className={classes.logo} alt="chatter" title={t('general.title')} />
+							<img src={logo} className={classes.logo} alt={appTitle} title={appTitle} />
 						</div>
 						<Avatar alt="user">
 							<Link to="/profile" className={classes.link}>
