@@ -4,19 +4,15 @@ import { PaletteType } from '@material-ui/core';
 
 export type LanguageTuple = 'en' | 'zh-TW';
 
+interface StateInterface<T> {
+	getter: T;
+	setter: React.Dispatch<React.SetStateAction<T>>;
+}
+
 export interface AppContextInterface {
-	mode: {
-		getter: PaletteType;
-		setter: React.Dispatch<React.SetStateAction<PaletteType>>;
-	};
-	theme: {
-		getter: ThemeTypes;
-		setter: React.Dispatch<React.SetStateAction<ThemeTypes>>;
-	};
-	language: {
-		getter: LanguageTuple;
-		setter: React.Dispatch<React.SetStateAction<LanguageTuple>>;
-	};
+	mode: StateInterface<PaletteType>;
+	theme: StateInterface<ThemeTypes>;
+	language: StateInterface<LanguageTuple>;
 }
 
 export const AppContext = React.createContext<AppContextInterface>({
