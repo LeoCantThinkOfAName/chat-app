@@ -3,16 +3,16 @@ import {User} from '@chat-app/shared';
 export const fakeContacts: User[] = [
 	{
 		id: 1,
-		name: 'Candy',
+		name: 'User 1',
 		unreads: 120,
 		status: 'online',
-		description: 'I luv you',
+		description: 'I\'m stupid',
 		thumbnail: null,
 		background: null,
 	},
 	{
 		id: 2,
-		name: 'Leo',
+		name: 'User 2',
 		unreads: 0,
 		status: 'offline',
 		description: "I'm idiot",
@@ -21,7 +21,7 @@ export const fakeContacts: User[] = [
 	},
 	{
 		id: 3,
-		name: 'Meow',
+		name: 'User 3',
 		unreads: 3,
 		status: 'afk',
 		description: "I'm idiot",

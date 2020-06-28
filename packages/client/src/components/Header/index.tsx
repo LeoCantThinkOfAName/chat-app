@@ -15,13 +15,13 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 const status = {
-  lg: {
-    contact: true
-  },
-  sm: {
-    contact: false
-  }
-}
+	lg: {
+		contact: true,
+	},
+	sm: {
+		contact: false,
+	},
+};
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -29,9 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			zIndex: theme.zIndex.drawer + 1,
 		},
 		toolbar: {
-			alignItems: 'center',
-			display: 'flex',
-			justifyContent: 'center',
+			...theme.mixins.flexCenter,
 			flexDirection: 'row',
 		},
 		main: {
@@ -41,16 +39,14 @@ const useStyles = makeStyles((theme: Theme) =>
 		},
 		logo: {
 			maxWidth: theme.spacing(5),
-    },
-    link: {
-      alignItems: "center",
-      display: "flex",
-      color: "inherit",
-      height: "100%",
-      justifyContent: "center",
-      width: "100%",
-      textDecoration: "none"
-    }
+		},
+		link: {
+			...theme.mixins.flexCenter,
+			color: 'inherit',
+			height: '100%',
+			width: '100%',
+			textDecoration: 'none',
+		},
 	})
 );
 
@@ -68,10 +64,10 @@ const Header: React.FC = () => {
 							<img src={logo} className={classes.logo} alt="chatter" title={t('general.title')} />
 						</div>
 						<Avatar alt="user">
-              <Link to="/profile" className={classes.link}>
-                U
-              </Link>
-            </Avatar>
+							<Link to="/profile" className={classes.link}>
+								U
+							</Link>
+						</Avatar>
 					</Toolbar>
 				</AppBar>
 			</ElevationScroll>

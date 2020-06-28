@@ -10,41 +10,35 @@ import { Pages } from '../../routes';
 import BaseDrawer from './BaseDrawer';
 
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    button: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    icons: {
-      minWidth: "auto",
-    }
-  }),
+	createStyles({
+		button: theme.mixins.flexCenter,
+		icons: {
+			minWidth: 'auto',
+		},
+	})
 );
 
 const AppDrawer = () => {
-  const classes = useStyles();
-  const { t } = useTranslation();
+	const classes = useStyles();
+	const { t } = useTranslation();
 
-  return (
-    <BaseDrawer>
-      {Pages.map(page => {
-        if(page.main) {
-          return (
-            <Link to={page.path} key={page.path}>
-              <Tooltip title={t(`general.menu.${page.name}`) as string}  arrow placement="right">
-                <ListItem button className={classes.button} >
-                  <ListItemIcon className={classes.icons}>
-                    {page.icon}
-                  </ListItemIcon>
-                </ListItem>
-              </Tooltip>
-            </Link>
-          )
-        }
-      })}
-    </BaseDrawer>
-  )
-}
+	return (
+		<BaseDrawer>
+			{Pages.map((page) => {
+				if (page.main) {
+					return (
+						<Link to={page.path} key={page.path}>
+							<Tooltip title={t(`general.menu.${page.name}`) as string} arrow placement="right">
+								<ListItem button className={classes.button}>
+									<ListItemIcon className={classes.icons}>{page.icon}</ListItemIcon>
+								</ListItem>
+							</Tooltip>
+						</Link>
+					);
+				}
+			})}
+		</BaseDrawer>
+	);
+};
 
-export default AppDrawer
+export default AppDrawer;
