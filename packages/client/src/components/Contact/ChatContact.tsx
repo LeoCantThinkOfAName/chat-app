@@ -1,53 +1,88 @@
-import React from 'react';
-import { User } from '@chat-app/shared';
-import Badge from '@material-ui/core/Badge';
-import Typography from '@material-ui/core/Typography';
-import BaseContact from './BaseContact';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import React from "react";
+import { User } from "@chat-app/shared";
+import Badge from "@material-ui/core/Badge";
+import Typography from "@material-ui/core/Typography";
+import BaseContact from "./BaseContact";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import clsx from "clsx";
 
 interface Props {
-	contact: User;
+  contact: User;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
-	createStyles({
-		badge: {
-			alignItems: 'center',
-			display: 'flex',
-			position: 'static',
-		},
-		circle: {
-			top: 0,
-			right: 0,
-			transform: 'scale(1)',
-			transformOrigin: '50% 50%',
-			position: 'static',
-			marginLeft: theme.spacing(1),
-		},
-	})
+  createStyles({
+    avatar: {
+      marginRight: theme.spacing(2),
+      position: "relative",
+      overflow: "visible",
+      "&::after": {
+        content: "''",
+        display: "block",
+        position: "absolute",
+        height: "calc(100% + 8px)",
+        width: "calc(100% + 8px)",
+        borderStyle: "solid",
+        borderWidth: 2,
+        borderRadius: "50%",
+      },
+    },
+    online: {
+      "&::after": {
+        borderColor: theme.palette.success.main,
+      },
+    },
+    offline: {
+      "&::after": {
+        borderColor: theme.palette.divider,
+      },
+    },
+    afk: {
+      "&::after": {
+        borderColor: theme.palette.warning.main,
+      },
+    },
+    badge: {
+      alignItems: "center",
+      display: "flex",
+      position: "static",
+    },
+    circle: {
+      top: 0,
+      right: 0,
+      transform: "scale(1)",
+      transformOrigin: "50% 50%",
+      position: "static",
+      marginLeft: theme.spacing(1),
+    },
+  })
 );
 
 const ChatContact: React.FC<Props> = ({ contact }) => {
-	const classes = useStyles();
+  const classes = useStyles();
 
-	return (
-		<BaseContact contact={contact} link={`/chat/${contact.id}`}>
-			<Badge
-				overlap="circle"
-				badgeContent={contact.unreads && contact.unreads}
-				color="error"
-				classes={{
-					root: classes.badge,
-					anchorOriginTopRightCircle: classes.circle,
-				}}
-			>
-				<Typography component="p">{contact.name}</Typography>
-			</Badge>
-			<Typography component="p" variant="caption" color="textSecondary">
-				Last message
-			</Typography>
-		</BaseContact>
-	);
+  return (
+    <BaseContact
+      contact={contact}
+      link={`/chat/${contact.id}`}
+      className={clsx(classes.avatar, classes[contact.status])}
+    >
+      <Badge
+        overlap="circle"
+        badgeContent={contact.unreads && contact.unreads}
+        color="error"
+        classes={{
+          root: classes.badge,
+          anchorOriginTopRightCircle: classes.circle,
+        }}
+      >
+        <Typography component="p">{contact.name}</Typography>
+      </Badge>
+      <Typography component="p" variant="caption" color="textSecondary">
+        Last message
+      </Typography>
+    </BaseContact>
+  );
 };
 
 export default ChatContact;

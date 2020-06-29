@@ -1,18 +1,17 @@
-import React from 'react'
-import GenericLink from '../GenericLink/index';
-import ListItem from '@material-ui/core/ListItem';
-import  Badge  from '@material-ui/core/Badge';
-import  Avatar  from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
+import React from "react";
+import GenericLink from "../GenericLink/index";
+import ListItem from "@material-ui/core/ListItem";
+import Avatar from "@material-ui/core/Avatar";
 
-import clsx from 'clsx';
-import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import { User } from '@chat-app/shared';
-import Box from '@material-ui/core/Box';
+import clsx from "clsx";
+import { Theme, makeStyles, createStyles } from "@material-ui/core/styles";
+import { User } from "@chat-app/shared";
+import Box from "@material-ui/core/Box";
 
 interface Props {
   link: string;
   contact: User;
+  className?: string;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -21,31 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(2),
       position: "relative",
       overflow: "visible",
-      "&::after": {
-        content: "''",
-        display: "block",
-        position: "absolute",
-        height: "calc(100% + 7px)",
-        width: "calc(100% + 7px)",
-        borderStyle: "solid",
-        borderWidth: 2,
-        borderRadius: "50%"
-      }
-    },
-    online: {
-      "&::after": {
-        borderColor: theme.palette.success.main,
-      }
-    },
-    offline: {
-      "&::after": {
-        borderColor: theme.palette.divider,
-      }
-    },
-    afk: {
-      "&::after": {
-        borderColor: theme.palette.warning.main,
-      }
     },
     badge: {
       alignItems: "center",
@@ -62,26 +36,32 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     description: {
       color: theme.palette.grey[500],
-      fontSize: 12
-    }
-  }),
+      fontSize: 12,
+    },
+  })
 );
 
-const BaseContact: React.FC<Props> = ({link, contact, children}) => {
+const BaseContact: React.FC<Props> = ({
+  link,
+  contact,
+  children,
+  className = undefined,
+}) => {
   const classes = useStyles();
 
   return (
     <GenericLink to={link}>
       <ListItem button>
-        <Avatar alt={contact.name} className={clsx(classes.avatar, classes[contact.status])}>
+        <Avatar
+          alt={contact.name}
+          className={className || clsx(classes.avatar)}
+        >
           {contact.name[0]}
         </Avatar>
-        <Box>
-          {children}
-        </Box>
+        <Box>{children}</Box>
       </ListItem>
     </GenericLink>
-  )
-}
+  );
+};
 
-export default BaseContact
+export default BaseContact;
