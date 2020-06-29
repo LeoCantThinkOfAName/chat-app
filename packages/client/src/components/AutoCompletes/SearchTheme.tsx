@@ -37,9 +37,9 @@ const SearchTheme = () => {
     themes && (
       <Autocomplete
         id="search-theme"
-        value={t(`general.colors.${theme}`)}
+        value={theme}
         options={themes}
-        getOptionLabel={(option) => option}
+        getOptionLabel={(option) => t(`general.colors.${option}`)}
         renderOption={(option) => <ThemeOptions theme={option as ThemeTypes} />}
         disableClearable
         onChange={SelectTheme}
