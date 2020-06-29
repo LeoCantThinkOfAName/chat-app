@@ -1,14 +1,12 @@
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import InputAdornment from "@material-ui/core/InputAdornment";
 
 import { useGlobalTheme } from "../../hooks/useGlobalTheme";
 import { AppThemes, ThemeTypes } from "../../Theme";
 import ThemeOptions from "./ThemeOption";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,13 +15,16 @@ const useStyles = makeStyles((theme: Theme) =>
       width: theme.spacing(3),
       marginRight: theme.spacing(1),
     },
+    input: {
+      cursor: "pointer",
+    },
   })
 );
 
 const SearchTheme = () => {
   const classes = useStyles();
-  const { t } = useTranslation();
   const themes = Object.keys(AppThemes);
+  const { t } = useTranslation();
   const { theme, setTheme } = useGlobalTheme();
 
   const SelectTheme = (_e: object, value: string | null) => {
@@ -36,14 +37,18 @@ const SearchTheme = () => {
     themes && (
       <Autocomplete
         id="search-theme"
-        value={theme}
+        value={t(`general.colors.${theme}`)}
         options={themes}
         getOptionLabel={(option) => option}
         renderOption={(option) => <ThemeOptions theme={option as ThemeTypes} />}
         disableClearable
         onChange={SelectTheme}
         renderInput={(params) => (
-          <TextField {...params} label={t("general.ui.search.theme")} />
+          <TextField
+            {...params}
+            label={t("general.ui.search.theme")}
+            classes={{ root: classes.input }}
+          />
         )}
       />
     )

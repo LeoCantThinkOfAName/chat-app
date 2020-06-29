@@ -28,6 +28,24 @@
     "languages": {
       "en": "English",
       "zh-TW": "Traditional Chinese (Taiwan)"
+    },
+    "colors": {
+      "red": "Red",
+      "pink": "Pink",
+      "purple": "Purple",
+      "blue": "Blue",
+      "cyan": "Cyan",
+      "teal": "Teal",
+      "green": "Green",
+      "lightGreen": "Light Green",
+      "lime": "Lime",
+      "yellow": "Yellow",
+      "amber": "Amber",
+      "orange": "Orange",
+      "deepOrange": "DeepOrange",
+      "brown": "Brown",
+      "grey": "Grey",
+      "blueGrey": "Blue Grey"
     }
   }
 }
