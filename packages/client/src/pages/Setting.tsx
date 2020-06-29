@@ -1,52 +1,43 @@
-import Box from '@material-ui/core/Box';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import Box from "@material-ui/core/Box";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
+import React from "react";
+import { useTranslation } from "react-i18next";
 
-import PageTitle from '../components/PageTitle';
-import { AvailableLanguages } from '../i18n';
-import { useDarkMode } from '../hooks/useDarkMode';
+import PageTitle from "../components/PageTitle";
+import { useDarkMode } from "../hooks/useDarkMode";
+import { SearchLanguage, SearchTheme } from "../components/AutoCompletes";
 
 const Setting = () => {
-	const { t, i18n } = useTranslation();
-	const { setMode } = useDarkMode();
+  const { t } = useTranslation();
+  const { setMode } = useDarkMode();
 
-	const SelectLanguage = (_e: Object, value: string) => {
-		i18n.changeLanguage(value);
-	};
-
-	return (
-		<Box p={2}>
-			<PageTitle>{t('general.title.page.settings')}</PageTitle>
-			<Box py={2}>
-				<Autocomplete
-					id="settings-language"
-					options={AvailableLanguages}
-					value={i18n.language}
-					disableClearable
-					onChange={SelectLanguage}
-					getOptionLabel={(option) => t(`general.languages.${option}`)}
-					renderInput={(params) => <TextField {...params} label={t('general.ui.search.languages')} />}
-				/>
-			</Box>
-			<Box py={2}>
-				<FormControlLabel
-					control={
-						<Switch
-							name="dark-mode"
-							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-								setMode(e.target.checked ? 'dark' : 'light')}
-							inputProps={{ 'aria-label': t('general.ui.switch.darkMode') }}
-						/>
-					}
-					label={t('general.ui.switch.darkMode')}
-				/>
-			</Box>
-		</Box>
-	);
+  return (
+    <Box p={2}>
+      <PageTitle>{t("general.title.page.settings")}</PageTitle>
+      <Box py={2}>
+        <SearchLanguage />
+      </Box>
+      <Box py={2}>
+        <FormControlLabel
+          control={
+            <Switch
+              name="dark-mode"
+              color="primary"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setMode(e.target.checked ? "dark" : "light")
+              }
+              inputProps={{ "aria-label": t("general.ui.switch.darkMode") }}
+            />
+          }
+          label={t("general.ui.switch.darkMode")}
+        />
+      </Box>
+      <Box py={2}>
+        <SearchTheme />
+      </Box>
+    </Box>
+  );
 };
 
 export default Setting;

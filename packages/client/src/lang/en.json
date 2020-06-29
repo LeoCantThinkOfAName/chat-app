@@ -1,32 +1,33 @@
 {
-	"general": {
-		"title": {
-			"app": "Chatter",
-			"page": {
-				"settings": "Settings"
-			}
-		},
-		"menu": {
-			"Home": "Home",
-			"Settings": "Settings",
-			"Chat": "Chat",
-			"Profile": "Profile"
-		},
-		"ui": {
-			"search": {
-				"contact": "Search Contact",
-				"languages": "Select Language"
-			},
-			"button": {
-				"startChattingWith": "Start Chatting With\n"
-			},
-			"switch": {
-				"darkMode": "Toggle Dark Mode"
-			}
-		},
-		"languages": {
-			"en": "English",
-			"zh-TW": "Traditional Chinese (Taiwan)"
-		}
-	}
+  "general": {
+    "title": {
+      "app": "Chatter",
+      "page": {
+        "settings": "Settings"
+      }
+    },
+    "menu": {
+      "Home": "Home",
+      "Settings": "Settings",
+      "Chat": "Chat",
+      "Profile": "Profile"
+    },
+    "ui": {
+      "search": {
+        "contact": "Search Contact",
+        "languages": "Select Language",
+        "theme": "Select Color Scheme"
+      },
+      "button": {
+        "startChattingWith": "Start Chatting With\n"
+      },
+      "switch": {
+        "darkMode": "Toggle Dark Mode"
+      }
+    },
+    "languages": {
+      "en": "English",
+      "zh-TW": "Traditional Chinese (Taiwan)"
+    }
+  }
 }
