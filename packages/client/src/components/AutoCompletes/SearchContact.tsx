@@ -30,7 +30,12 @@ const SearchContacts: React.FC<Props> = ({ type }) => {
   const { t } = useTranslation();
 
   return (
-    <form className={classes.root} noValidate autoComplete="off">
+    <form
+      className={classes.root}
+      noValidate
+      autoComplete="off"
+      onSubmit={(e) => e.preventDefault()}
+    >
       <Autocomplete
         id="search-contact"
         options={fakeContacts}
