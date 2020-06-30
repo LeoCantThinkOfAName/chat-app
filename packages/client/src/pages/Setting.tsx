@@ -10,7 +10,7 @@ import { SearchLanguage, SearchTheme } from "../components/AutoCompletes";
 
 const Setting = () => {
   const { t } = useTranslation();
-  const { setMode } = useDarkMode();
+  const { mode, setMode } = useDarkMode();
 
   return (
     <Box p={2}>
@@ -22,6 +22,7 @@ const Setting = () => {
         <FormControlLabel
           control={
             <Switch
+              checked={mode === "light" ? false : true}
               name="dark-mode"
               color="primary"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
