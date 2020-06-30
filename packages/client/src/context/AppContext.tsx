@@ -1,21 +1,24 @@
 import React, { useState } from "react";
 import { ThemeTypes } from "../Theme";
 import { PaletteType } from "@material-ui/core";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
-export type LanguageTuple = "en" | "zh-TW";
+export interface AppContextInterface {
+  mode: PaletteType;
+  theme: ThemeTypes;
+}
 
 interface StateInterface<T> {
   getter: T;
   setter: React.Dispatch<React.SetStateAction<T>>;
 }
 
-export interface AppContextInterface {
+export interface AppContextValue {
   mode: StateInterface<PaletteType>;
   theme: StateInterface<ThemeTypes>;
-  language: StateInterface<LanguageTuple>;
 }
 
-export const AppContext = React.createContext<AppContextInterface>({
+export const AppContext = React.createContext<AppContextValue>({
   mode: {
     getter: "light",
     setter: () => "light",
@@ -24,16 +27,18 @@ export const AppContext = React.createContext<AppContextInterface>({
     getter: "blue",
     setter: () => "blue",
   },
-  language: {
-    getter: "en",
-    setter: () => "en",
-  },
 });
 
 export const AppProvider: React.FC = ({ children }) => {
-  const [theme, setTheme] = useState<ThemeTypes>("blue");
-  const [mode, setMode] = useState<PaletteType>("light");
-  const [language, setLanguage] = useState<LanguageTuple>("en");
+  const [storedValue] = useLocalStorage<AppContextInterface>({
+    key: "app",
+    initValue: {
+      mode: "light",
+      theme: "blue",
+    },
+  });
+  const [theme, setTheme] = useState<ThemeTypes>(storedValue.theme);
+  const [mode, setMode] = useState<PaletteType>(storedValue.mode);
 
   return (
     <AppContext.Provider
@@ -45,10 +50,6 @@ export const AppProvider: React.FC = ({ children }) => {
         theme: {
           getter: theme,
           setter: setTheme,
-        },
-        language: {
-          getter: language,
-          setter: setLanguage,
         },
       }}
     >
