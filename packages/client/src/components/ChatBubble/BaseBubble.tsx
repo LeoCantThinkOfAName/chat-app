@@ -4,9 +4,11 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
 import React from "react";
+import { Message } from "@chat-app/shared";
 
 interface BubbleProps {
   alignSelf?: "flex-start" | "flex-end";
+  message: Message;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -25,8 +27,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const BaseBubble: React.FC<BubbleProps> = ({
-  children,
   alignSelf = "flex-start",
+  message,
 }) => {
   const classes = useStyles();
 
@@ -40,14 +42,14 @@ const BaseBubble: React.FC<BubbleProps> = ({
     >
       <Paper>
         <Box py={1} px={1.5}>
-          {children}
+          {message.message}
         </Box>
       </Paper>
       <Typography
         variant="caption"
         className={clsx(classes.timestamp, classes[alignSelf])}
       >
-        {new Date().toLocaleTimeString()}
+        {message.timestamp.toLocaleTimeString()}
       </Typography>
     </Box>
   );

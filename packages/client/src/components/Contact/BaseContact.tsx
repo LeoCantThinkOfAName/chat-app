@@ -10,7 +10,10 @@ import Box from "@material-ui/core/Box";
 
 interface Props {
   link: string;
-  contact: User;
+  contact: {
+    name: User["name"];
+    thumbnail: User["thumbnail"];
+  };
   className?: string;
 }
 
@@ -56,7 +59,7 @@ const BaseContact: React.FC<Props> = ({
           alt={contact.name}
           className={className || clsx(classes.avatar)}
         >
-          {contact.name[0]}
+          {contact.name && contact.name[0]}
         </Avatar>
         <Box>{children}</Box>
       </ListItem>

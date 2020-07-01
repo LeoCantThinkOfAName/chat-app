@@ -82,6 +82,7 @@ const ThemesMap = {
 };
 
 const AppThemes: Partial<Themes> = {};
+
 Object.keys(ThemesMap).forEach(
   (key) =>
     (Object.assign(AppThemes)[key] = {

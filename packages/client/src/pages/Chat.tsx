@@ -4,34 +4,21 @@ import { useParams } from "react-router-dom";
 
 import { MyBubble } from "../components/ChatBubble";
 import BaseBubble from "../components/ChatBubble/BaseBubble";
-
-const gibberish = [
-  "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum, aliquam",
-  "Lorem ipsum dolor sit amet.",
-  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis reprehenderit tempora perspiciatis iusto libero omnis voluptatem esse quibusdam totam animi?",
-  "Lorem ipsum dolor sit.",
-  "Lorem ipsum dolor sit amet consectetur.",
-];
-
-const gibberish2 = [
-  "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum, aliquam",
-  "Lorem ipsum dolor sit amet.",
-  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis reprehenderit tempora perspiciatis iusto libero omnis voluptatem esse quibusdam totam animi?",
-  "Lorem ipsum dolor sit.",
-  "Lorem ipsum dolor sit amet consectetur.",
-];
+import { fakeMessages } from "../assets/dev/fakeMessages";
 
 const Chat = () => {
   const { id } = useParams();
+  const currentRoom = fakeMessages[id];
 
   return (
     <Box p={2} display="flex" flexDirection="column">
-      {gibberish.map((gibber) => (
-        <MyBubble key={gibber}>{gibber}</MyBubble>
-      ))}
-      {gibberish2.map((gibber) => (
-        <BaseBubble key={gibber}>{gibber}</BaseBubble>
-      ))}
+      {currentRoom.map((message) => {
+        if (message.userId === 1) {
+          return <MyBubble key={message.id} message={message} />;
+        } else {
+          return <BaseBubble key={message.id} message={message} />;
+        }
+      })}
     </Box>
   );
 };

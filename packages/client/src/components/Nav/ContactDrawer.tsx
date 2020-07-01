@@ -3,6 +3,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
 import { useRouteMatch } from "react-router-dom";
 
+import { combinedData } from "../../assets/dev/fakeChatContact";
 import { fakeContacts } from "../../assets/dev/fakeUserData";
 import { SearchContacts } from "../AutoCompletes";
 import { ChatContact, ProfileContact } from "../Contact";
@@ -37,13 +38,13 @@ const ContactDrawer = () => {
       <Hidden smDown implementation="js">
         <SearchContacts type={notChat ? "profile" : "chat"} />
       </Hidden>
-      {fakeContacts.map((contact) => {
-        if (notChat) {
-          return <ProfileContact key={contact.id} contact={contact} />;
-        } else {
-          return <ChatContact key={contact.id} contact={contact} />;
-        }
-      })}
+      {notChat
+        ? fakeContacts.map((contact) => (
+            <ProfileContact key={contact.id} contact={contact} />
+          ))
+        : combinedData.map((contact) => (
+            <ChatContact key={contact.chatRoomId} contact={contact} />
+          ))}
     </BaseDrawer>
   );
 };

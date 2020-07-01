@@ -1,5 +1,5 @@
 import React from "react";
-import { User } from "@chat-app/shared";
+import { ChatContact as ChatContactType } from "@chat-app/shared";
 import Badge from "@material-ui/core/Badge";
 import Typography from "@material-ui/core/Typography";
 import BaseContact from "./BaseContact";
@@ -7,7 +7,7 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import clsx from "clsx";
 
 interface Props {
-  contact: User;
+  contact: ChatContactType;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -63,20 +63,20 @@ const ChatContact: React.FC<Props> = ({ contact }) => {
 
   return (
     <BaseContact
-      contact={contact}
-      link={`/chat/${contact.id}`}
-      className={clsx(classes.avatar, classes[contact.status])}
+      contact={{ name: contact.userName, thumbnail: null }}
+      link={`/chat/${contact.chatRoomId}`}
+      className={clsx(classes.avatar, classes[contact.userStatus])}
     >
       <Badge
         overlap="circle"
-        badgeContent={contact.unreads && contact.unreads}
+        badgeContent={contact.unread && contact.unread}
         color="error"
         classes={{
           root: classes.badge,
           anchorOriginTopRightCircle: classes.circle,
         }}
       >
-        <Typography component="p">{contact.name}</Typography>
+        <Typography component="p">{contact.userName}</Typography>
       </Badge>
       <Typography component="p" variant="caption" color="textSecondary">
         Last message
