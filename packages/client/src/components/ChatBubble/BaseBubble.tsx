@@ -13,6 +13,9 @@ interface BubbleProps {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      wordBreak: "break-word",
+    },
     timestamp: {
       color: theme.palette.grey[500],
       marginTop: theme.spacing(0.5),
@@ -34,6 +37,7 @@ const BaseBubble: React.FC<BubbleProps> = ({
 
   return (
     <Box
+      className={classes.root}
       display="inline-flex"
       maxWidth="80%"
       flexDirection="column"

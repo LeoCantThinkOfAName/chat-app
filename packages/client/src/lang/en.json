@@ -6,6 +6,11 @@
         "settings": "Settings"
       }
     },
+    "placeholder": {
+      "page": {
+        "chat": "Select Your Contact to Start Chatting!"
+      }
+    },
     "menu": {
       "Home": "Home",
       "Settings": "Settings",
