@@ -1,13 +1,13 @@
+import { Message } from "@chat-app/shared";
 import Box from "@material-ui/core/Box";
-import Paper from "@material-ui/core/Paper";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
 import React from "react";
-import { Message } from "@chat-app/shared";
 
 interface BubbleProps {
   alignSelf?: "flex-start" | "flex-end";
+  maxWidth?: string;
   message: Message;
 }
 
@@ -25,12 +25,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     "flex-start": {
       textAlign: "left",
+      marginLeft: theme.spacing(5),
     },
   })
 );
 
 const BaseBubble: React.FC<BubbleProps> = ({
   alignSelf = "flex-start",
+  maxWidth = "80%",
   message,
   children,
 }) => {
@@ -40,7 +42,7 @@ const BaseBubble: React.FC<BubbleProps> = ({
     <Box
       className={classes.root}
       display="inline-flex"
-      maxWidth="80%"
+      maxWidth={maxWidth}
       flexDirection="column"
       alignSelf={alignSelf}
       mb={1.5}
