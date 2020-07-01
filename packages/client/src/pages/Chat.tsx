@@ -1,4 +1,5 @@
 import Box from "@material-ui/core/Box";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import InboxIcon from "@material-ui/icons/Inbox";
 import React from "react";
@@ -7,8 +8,7 @@ import { useParams } from "react-router-dom";
 
 import { fakeMessages } from "../assets/dev/fakeMessages";
 import { MyBubble } from "../components/ChatBubble";
-import BaseBubble from "../components/ChatBubble/BaseBubble";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import OthersBubble from "../components/ChatBubble/OthersBubble";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,10 +28,10 @@ const Chat = () => {
     <Box p={2} display="flex" flexDirection="column" flex={1}>
       {id ? (
         currentRoom.map((message) => {
-          if (message.userId === 1) {
+          if (message.user.id === 1) {
             return <MyBubble key={message.id} message={message} />;
           } else {
-            return <BaseBubble key={message.id} message={message} />;
+            return <OthersBubble key={message.id} message={message} />;
           }
         })
       ) : (

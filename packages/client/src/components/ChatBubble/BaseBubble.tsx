@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const BaseBubble: React.FC<BubbleProps> = ({
   alignSelf = "flex-start",
   message,
+  children,
 }) => {
   const classes = useStyles();
 
@@ -44,11 +45,7 @@ const BaseBubble: React.FC<BubbleProps> = ({
       alignSelf={alignSelf}
       mb={1.5}
     >
-      <Paper>
-        <Box py={1} px={1.5}>
-          {message.message}
-        </Box>
-      </Paper>
+      {children}
       <Typography
         variant="caption"
         className={clsx(classes.timestamp, classes[alignSelf])}

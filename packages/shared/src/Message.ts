@@ -1,7 +1,9 @@
+import { User } from './User';
+
 export interface Message {
   id: number;
   chatRoomId: number;
-  userId: number;
+  user: Partial<User>;
   message: string;
   timestamp: Date;
   read: number[];
