@@ -1,8 +1,10 @@
+export type UserStatus = 'online' | 'offline' | 'afk';
+
 export interface User {
   id: number;
   name: string;
   unreads?: number;
-  status: 'online' | 'offline' | 'afk';
+  status: UserStatus;
   description: string;
   thumbnail: string | null;
   background: string | null;
