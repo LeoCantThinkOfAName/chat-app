@@ -9,14 +9,34 @@ import { useParams } from "react-router-dom";
 import { fakeMessages } from "../assets/dev/fakeMessages";
 import { MyBubble } from "../components/ChatBubble";
 import OthersBubble from "../components/ChatBubble/OthersBubble";
+import AutoSizer from "react-virtualized-auto-sizer";
+import { Message } from "../../../shared/dist/Message";
+//@ts-ignore
+import { DynamicSizeList, ListChildComponentProps } from "react-window-dynamic";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     empty: {
       color: theme.palette.grey[500],
     },
+    window: {
+      padding: theme.spacing(2),
+      "&>div": {
+        display: "flex",
+        flexDirection: "column",
+      },
+    },
   })
 );
+
+const Conversation = ({ index, data }: ListChildComponentProps) => {
+  const context: Message = data[index];
+  return context.user.id === 1 ? (
+    <MyBubble message={context} />
+  ) : (
+    <OthersBubble message={context} />
+  );
+};
 
 const Chat = () => {
   const { t } = useTranslation();
@@ -25,15 +45,21 @@ const Chat = () => {
   const currentRoom = fakeMessages[id];
 
   return (
-    <Box p={2} display="flex" flexDirection="column" flex={1}>
+    <Box display="flex" flexDirection="column" flex={1}>
       {id ? (
-        currentRoom.map((message) => {
-          if (message.user.id === 1) {
-            return <MyBubble key={message.id} message={message} />;
-          } else {
-            return <OthersBubble key={message.id} message={message} />;
-          }
-        })
+        <AutoSizer>
+          {({ height, width }) => (
+            <DynamicSizeList
+              height={height}
+              width={width}
+              itemCount={currentRoom.length}
+              itemData={currentRoom}
+              className={classes.window}
+            >
+              {Conversation}
+            </DynamicSizeList>
+          )}
+        </AutoSizer>
       ) : (
         <Box
           flex={1}

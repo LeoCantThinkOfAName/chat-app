@@ -6,6 +6,7 @@ import React from "react";
 import BaseBubble from "./BaseBubble";
 import Avatar from "@material-ui/core/Avatar";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { useDarkMode } from "../../hooks/useDarkMode";
 
 interface Props {
   message: Message;
@@ -13,6 +14,12 @@ interface Props {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    dark: {
+      backgroundColor: theme.palette.primary.dark,
+    },
+    light: {
+      backgroundColor: theme.palette.primary.light,
+    },
     avatar: {
       width: theme.spacing(4),
       height: theme.spacing(4),
@@ -23,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const OthersBubble: React.FC<Props> = ({ children, message }) => {
   const classes = useStyles();
+  const { mode } = useDarkMode();
   const user = message.user;
   const userName = user.name;
 
@@ -36,7 +44,7 @@ const OthersBubble: React.FC<Props> = ({ children, message }) => {
         <Avatar className={classes.avatar}>
           {userName ? userName[0].toUpperCase() : null}
         </Avatar>
-        <Paper>
+        <Paper className={classes[mode]}>
           <Box py={1} px={1.5}>
             {message.message}
           </Box>
