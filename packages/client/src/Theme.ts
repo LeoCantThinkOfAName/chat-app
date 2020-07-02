@@ -1,6 +1,9 @@
 import {
   ThemeOptions,
   SimplePaletteColorOptions,
+  makeStyles,
+  Theme,
+  createStyles,
 } from "@material-ui/core/styles";
 import { Overrides as OverridesProps } from "@material-ui/core/styles/overrides";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
@@ -161,3 +164,11 @@ export const AppThemes: Record<keyof Themes, ThemeInterface> = {
     dark: blueGrey[900],
   },
 };
+
+export const useGlobalStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    emptyPagePlaceholder: {
+      color: theme.palette.grey[500],
+    },
+  })
+);

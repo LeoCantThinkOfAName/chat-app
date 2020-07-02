@@ -1,11 +1,11 @@
-import Avatar from '@material-ui/core/Avatar';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link, useParams } from 'react-router-dom';
-import ForumIcon from '@material-ui/icons/Forum';
-import MenuItem from '@material-ui/core/MenuItem';
+import Avatar from "@material-ui/core/Avatar";
+import MenuItem from "@material-ui/core/MenuItem";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import ForumIcon from "@material-ui/icons/Forum";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "#fff",
     },
     mask: {
-      backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8))',
+      backgroundImage: "linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8))",
       height: "100%",
       width: "100%",
       position: "absolute",
@@ -46,8 +46,8 @@ const useStyles = makeStyles((theme: Theme) =>
         height: "25vw",
         width: "25vw",
         maxHeight: "400px",
-        maxWidth: "400px"
-      }
+        maxWidth: "400px",
+      },
     },
     name: {
       marginTop: theme.spacing(1.5),
@@ -60,8 +60,8 @@ const useStyles = makeStyles((theme: Theme) =>
       background: theme.palette.success.dark,
       "&:hover": {
         background: theme.palette.success.dark,
-        opacity: 0.8
-      }
+        opacity: 0.8,
+      },
     },
     link: {
       ...theme.mixins.flexCenter,
@@ -71,9 +71,9 @@ const useStyles = makeStyles((theme: Theme) =>
       textDecoration: "none",
     },
     icon: {
-      marginRight: theme.spacing(1)
-    }
-  }),
+      marginRight: theme.spacing(1),
+    },
+  })
 );
 
 const Profile = () => {
@@ -83,31 +83,40 @@ const Profile = () => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.main} style={{backgroundImage: `url(https://images.unsplash.com/photo-1533683083439-1a776a5653cb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80)`}}>
-        <div className={classes.mask}/>
+      <div
+        className={classes.main}
+        style={{
+          backgroundImage: `url(https://images.unsplash.com/photo-1533683083439-1a776a5653cb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80)`,
+        }}
+      >
+        <div className={classes.mask} />
         <div className={classes.content}>
-          <Avatar variant="square" className={classes.avatar}>U</Avatar>
+          <Avatar variant="square" className={classes.avatar}>
+            U
+          </Avatar>
           <Typography component="h3" variant="h5" className={classes.name}>
             User Name
           </Typography>
-          <Typography component="p" variant="subtitle2" className={classes.caption}>
+          <Typography
+            component="p"
+            variant="subtitle2"
+            className={classes.caption}
+          >
             user description
           </Typography>
         </div>
       </div>
-      {
-        id && (
-          <MenuItem
-            className={classes.button}
-          >
-            <Link to={`/chat/${id}`} className={classes.link}>
-              <ForumIcon className={classes.icon}/>{t('general.ui.button.startChattingWith')}{id}
-            </Link>
-          </MenuItem>
-        )
-      }
+      {id && (
+        <MenuItem className={classes.button}>
+          <Link to={`/chat/${id}`} className={classes.link}>
+            <ForumIcon className={classes.icon} />
+            {t("general.ui.button.startChattingWith")}
+            {id}
+          </Link>
+        </MenuItem>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

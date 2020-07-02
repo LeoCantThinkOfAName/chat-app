@@ -13,12 +13,10 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { Message } from "../../../shared/dist/Message";
 //@ts-ignore
 import { DynamicSizeList, ListChildComponentProps } from "react-window-dynamic";
+import { useGlobalStyles } from "../Theme";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    empty: {
-      color: theme.palette.grey[500],
-    },
     window: {
       padding: theme.spacing(2),
       "&>div": {
@@ -42,6 +40,7 @@ const Chat = () => {
   const { t } = useTranslation();
   const { id } = useParams();
   const classes = useStyles();
+  const globalClasses = useGlobalStyles();
   const currentRoom = fakeMessages[id];
 
   return (
@@ -71,10 +70,10 @@ const Chat = () => {
             display="flex"
             flexDirection="column"
             alignItems="center"
-            className={classes.empty}
+            className={globalClasses.emptyPagePlaceholder}
           >
             <InboxIcon fontSize="large" />
-            <Typography variant="caption">
+            <Typography component="p" variant="caption">
               {t("general.placeholder.page.chat")}
             </Typography>
           </Box>
