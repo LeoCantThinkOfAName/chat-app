@@ -1,18 +1,17 @@
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import React from 'react';
-import Hidden from '@material-ui/core/Hidden';
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import React from "react";
+import Hidden from "@material-ui/core/Hidden";
 
-import Header from '../Header';
-import Nav from '../Nav';
-import Footer from '../Footer/index';
+import Header from "../Header";
+import Nav from "../Nav";
+import Footer from "../Footer/index";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
-      height: "100%"
+      display: "flex",
+      height: "100%",
     },
     content: {
       display: "flex",
@@ -21,29 +20,28 @@ const useStyles = makeStyles((theme: Theme) =>
       flex: 1,
       maxHeight: "100vh",
     },
-  }),
+  })
 );
 
-const Layout: React.FC = ({children}) => {
+const Layout: React.FC = ({ children }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <CssBaseline/>
-      <Header/>
-      <Nav/>
+      <Header />
+      <Nav />
       <main className={classes.content}>
         <Toolbar />
         {children}
         <Hidden smUp implementation="js">
           <Toolbar />
-        </Hidden>  
+        </Hidden>
       </main>
       <Hidden smUp implementation="js">
-        <Footer/>
+        <Footer />
       </Hidden>
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

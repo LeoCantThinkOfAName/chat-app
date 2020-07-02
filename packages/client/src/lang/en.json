@@ -3,7 +3,8 @@
     "title": {
       "app": "Chatter",
       "page": {
-        "settings": "Settings"
+        "settings": "Settings",
+        "login": "Login Or Create A New Account"
       }
     },
     "placeholder": {
@@ -25,7 +26,13 @@
         "theme": "Select Color Scheme"
       },
       "button": {
-        "startChattingWith": "Start Chatting With\n"
+        "startChattingWith": "Start Chatting With\n",
+        "login": {
+          "login": "Login",
+          "signup": "Sign Up",
+          "github": "Login With Github",
+          "facebook": "Login With Facebook"
+        }
       },
       "switch": {
         "darkMode": "Toggle Dark Mode"
