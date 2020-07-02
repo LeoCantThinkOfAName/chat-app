@@ -1,20 +1,19 @@
-import './i18n';
+import "./i18n";
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import './index.css';
-import { AppProvider } from './context/AppContext';
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import { AppProvider } from "./context/AppContext";
 
 ReactDOM.render(
-	<React.StrictMode>
-		<AppProvider>
-			<App />
-		</AppProvider>
-	</React.StrictMode>,
-	document.getElementById('root')
+  <React.StrictMode>
+    <AppProvider>
+      <App />
+    </AppProvider>
+  </React.StrictMode>,
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
