@@ -1,23 +1,20 @@
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import CloseIcon from "@material-ui/icons/Close";
-import FingerPrint from "@material-ui/icons/Fingerprint";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
 import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
+import CloseIcon from "@material-ui/icons/Close";
+import React, { useContext, useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
-interface LoginFormProps {
+import { LoginContext } from "../../context/LoginContext";
+import NameField from "./NameField";
+import PasswordField from "./PasswordField";
+
+export interface LoginFormProps {
   type: "login" | "signup";
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     input: {
       marginBottom: theme.spacing(2.5),
@@ -33,68 +30,28 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const LoginForm: React.FC<LoginFormProps> = ({ type = "login" }) => {
   const { t } = useTranslation();
+  const [passed, setPassed] = useState(false);
+  const { loginState, signupState } = useContext(LoginContext);
   const classes = useStyles();
-  const [show, setShow] = useState(false);
-  const [data, setData] = useState({
-    name: "asd",
-    password: "asd",
-  });
-  const filled = data.name !== "" && data.password !== "";
 
-  const handleClick = () => {
-    setShow(!show);
-  };
+  useEffect(() => {
+    if (type === "login") {
+      setPassed(loginState.name !== "" && loginState.password !== "");
+    } else {
+      setPassed(signupState.name !== "" && signupState.password !== "");
+    }
+  }, [type, loginState, signupState]);
 
   return (
     <form>
-      <TextField
-        id="login-username"
-        label="User Name"
-        name="name"
-        fullWidth
-        className={classes.input}
-        value={data.name}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <AccountCircle />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <TextField
-        id="login-password"
-        label="Password"
-        name="password"
-        autoComplete="off"
-        fullWidth
-        className={classes.input}
-        type={show ? "text" : "password"}
-        value={data.password}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <FingerPrint />
-            </InputAdornment>
-          ),
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClick}
-              >
-                {show ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
+      <NameField type={type} />
+      <PasswordField type={type} />
       <Button
         variant="contained"
-        startIcon={filled ? <CheckIcon /> : <CloseIcon />}
+        startIcon={passed ? <CheckIcon /> : <CloseIcon />}
         fullWidth
-        className={filled ? classes.filled : classes.notFilled}
-        disabled={!filled}
+        className={passed ? classes.filled : classes.notFilled}
+        disabled={!passed}
       >
         {t(`general.ui.button.login.${type}`)}
       </Button>
