@@ -3,34 +3,27 @@ import { ThemeTypes } from "../Theme";
 import { PaletteType } from "@material-ui/core";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
-export interface AppContextInterface {
+export interface AppState {
   mode: PaletteType;
   theme: ThemeTypes;
 }
 
-interface StateInterface<T> {
-  getter: T;
-  setter: React.Dispatch<React.SetStateAction<T>>;
+export interface AppSetState {
+  setMode: React.Dispatch<React.SetStateAction<PaletteType>>;
+  setTheme: React.Dispatch<React.SetStateAction<ThemeTypes>>;
 }
 
-export interface AppContextValue {
-  mode: StateInterface<PaletteType>;
-  theme: StateInterface<ThemeTypes>;
-}
+export type AppContextType = AppState & AppSetState;
 
-export const AppContext = React.createContext<AppContextValue>({
-  mode: {
-    getter: "light",
-    setter: () => "light",
-  },
-  theme: {
-    getter: "blue",
-    setter: () => "blue",
-  },
+export const AppContext = React.createContext<AppContextType>({
+  mode: "light",
+  theme: "blue",
+  setMode: (state) => state,
+  setTheme: (state) => state,
 });
 
 export const AppProvider: React.FC = ({ children }) => {
-  const [storedValue] = useLocalStorage<AppContextInterface>({
+  const [storedValue] = useLocalStorage<AppState>({
     key: "app",
     initValue: {
       mode: "light",
@@ -43,14 +36,10 @@ export const AppProvider: React.FC = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
-        mode: {
-          getter: mode,
-          setter: setMode,
-        },
-        theme: {
-          getter: theme,
-          setter: setTheme,
-        },
+        mode,
+        theme,
+        setTheme,
+        setMode,
       }}
     >
       {children}

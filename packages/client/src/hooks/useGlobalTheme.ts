@@ -1,21 +1,19 @@
 import { useContext, useEffect } from "react";
-import { AppContext, AppContextInterface } from "../context/AppContext";
+import { AppContext, AppState } from "../context/AppContext";
 import { useLocalStorage } from "./useLocalStorage";
 
 export const useGlobalTheme = () => {
-  const [storedValue, setValue] = useLocalStorage<AppContextInterface>({
+  const [storedValue, setValue] = useLocalStorage<AppState>({
     key: "app",
   });
-  const {
-    theme: { getter, setter },
-  } = useContext(AppContext);
+  const { theme, setTheme } = useContext(AppContext);
 
   useEffect(() => {
     setValue({
       ...storedValue,
-      theme: getter,
+      theme,
     });
-  }, [getter]);
+  }, [theme]);
 
-  return { theme: getter, setTheme: setter };
+  return { theme, setTheme };
 };

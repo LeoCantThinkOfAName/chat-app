@@ -1,21 +1,19 @@
 import { useContext, useEffect } from "react";
-import { AppContext, AppContextInterface } from "../context/AppContext";
+import { AppContext, AppState } from "../context/AppContext";
 import { useLocalStorage } from "./useLocalStorage";
 
 export const useDarkMode = () => {
-  const [storedValue, setValue] = useLocalStorage<AppContextInterface>({
+  const [storedValue, setValue] = useLocalStorage<AppState>({
     key: "app",
   });
-  const {
-    mode: { getter, setter },
-  } = useContext(AppContext);
+  const { mode, setMode } = useContext(AppContext);
 
   useEffect(() => {
     setValue({
       ...storedValue,
-      mode: getter,
+      mode,
     });
-  }, [getter]);
+  }, [mode]);
 
-  return { mode: getter, setMode: setter };
+  return { mode, setMode };
 };
