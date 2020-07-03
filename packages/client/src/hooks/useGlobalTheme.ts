@@ -9,11 +9,13 @@ export const useGlobalTheme = () => {
   const { theme, setTheme } = useContext(AppContext);
 
   useEffect(() => {
-    setValue({
-      ...storedValue,
-      theme,
-    });
-  }, [theme]);
+    if (storedValue.theme !== theme) {
+      setValue({
+        ...storedValue,
+        theme,
+      });
+    }
+  }, [theme, storedValue, setValue]);
 
   return { theme, setTheme };
 };

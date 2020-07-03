@@ -9,11 +9,13 @@ export const useDarkMode = () => {
   const { mode, setMode } = useContext(AppContext);
 
   useEffect(() => {
-    setValue({
-      ...storedValue,
-      mode,
-    });
-  }, [mode]);
+    if (storedValue.mode !== mode) {
+      setValue({
+        ...storedValue,
+        mode,
+      });
+    }
+  }, [mode, storedValue, setValue]);
 
   return { mode, setMode };
 };
