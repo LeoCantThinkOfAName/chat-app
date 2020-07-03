@@ -1,14 +1,13 @@
 import AppBar from "@material-ui/core/AppBar";
-import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
 import logo from "../../assets/chatter.png";
 import ElevationScroll from "./ElevationScroll";
+import UserAvatar from "./UserAvatar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -56,11 +55,7 @@ const Header: React.FC = () => {
                 title={appTitle}
               />
             </div>
-            <Avatar alt="user">
-              <Link to="/profile" className={classes.link}>
-                U
-              </Link>
-            </Avatar>
+            <UserAvatar />
           </Toolbar>
         </AppBar>
       </ElevationScroll>
