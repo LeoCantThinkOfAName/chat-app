@@ -7,12 +7,12 @@ interface Props {
   name: string;
   thumbnail?: string | null;
   status?: "online" | "offline" | "afk" | null;
+  ref?: React.MutableRefObject<any>;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     avatar: {
-      marginRight: theme.spacing(2),
       position: "relative",
       overflow: "visible",
     },
