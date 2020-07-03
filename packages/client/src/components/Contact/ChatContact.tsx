@@ -12,36 +12,6 @@ interface Props {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    avatar: {
-      marginRight: theme.spacing(2),
-      position: "relative",
-      overflow: "visible",
-      "&::after": {
-        content: "''",
-        display: "block",
-        position: "absolute",
-        height: "calc(100% + 8px)",
-        width: "calc(100% + 8px)",
-        borderStyle: "solid",
-        borderWidth: 2,
-        borderRadius: "50%",
-      },
-    },
-    online: {
-      "&::after": {
-        borderColor: theme.palette.success.main,
-      },
-    },
-    offline: {
-      "&::after": {
-        borderColor: theme.palette.divider,
-      },
-    },
-    afk: {
-      "&::after": {
-        borderColor: theme.palette.warning.main,
-      },
-    },
     badge: {
       alignItems: "center",
       display: "flex",
@@ -63,9 +33,13 @@ const ChatContact: React.FC<Props> = ({ contact }) => {
 
   return (
     <BaseContact
-      contact={{ name: contact.userName, thumbnail: null }}
+      contact={{
+        name: contact.userName,
+        thumbnail: null,
+        status: contact.userStatus,
+      }}
       link={`/chat/${contact.chatRoomId}`}
-      className={clsx(classes.avatar, classes[contact.userStatus])}
+      showStatus
     >
       <Badge
         overlap="circle"
