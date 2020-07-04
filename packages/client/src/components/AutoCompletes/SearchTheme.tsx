@@ -1,12 +1,12 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import React from "react";
-import { useTranslation } from "react-i18next";
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { useGlobalTheme } from "../../hooks/useGlobalTheme";
-import { AppThemes, ThemeTypes } from "../../Theme";
-import ThemeOptions from "./ThemeOption";
+import { useAppContext } from '../../hooks/useAppContext';
+import { AppThemes, ThemeTypes } from '../../Theme';
+import ThemeOptions from './ThemeOption';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,7 +25,7 @@ const SearchTheme = () => {
   const classes = useStyles();
   const themes = Object.keys(AppThemes);
   const { t } = useTranslation();
-  const { theme, setTheme } = useGlobalTheme();
+  const {theme, setTheme} = useAppContext();
 
   const SelectTheme = (_e: object, value: string | null) => {
     if (value) {

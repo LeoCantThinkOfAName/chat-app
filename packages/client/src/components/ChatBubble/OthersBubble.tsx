@@ -1,12 +1,12 @@
-import { Message } from "@chat-app/shared";
-import Box from "@material-ui/core/Box";
-import Paper from "@material-ui/core/Paper";
-import React from "react";
+import { Message } from '@chat-app/shared';
+import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
+import Paper from '@material-ui/core/Paper';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import React from 'react';
 
-import BaseBubble from "./BaseBubble";
-import Avatar from "@material-ui/core/Avatar";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { useDarkMode } from "../../hooks/useDarkMode";
+import { useAppContext } from '../../hooks/useAppContext';
+import BaseBubble from './BaseBubble';
 
 interface Props {
   message: Message;
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const OthersBubble: React.FC<Props> = ({ children, message }) => {
   const classes = useStyles();
-  const { mode } = useDarkMode();
+  const { mode } = useAppContext();
   const user = message.user;
   const userName = user.name;
 

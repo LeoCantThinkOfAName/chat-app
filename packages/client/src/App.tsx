@@ -2,14 +2,12 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import React, { useMemo } from "react";
 
-import { useDarkMode } from "./hooks/useDarkMode";
-import { useGlobalTheme } from "./hooks/useGlobalTheme";
 import Routes from "./routes";
 import { AppThemes, Breakpoints, FlexCenterMixin, Overrides } from "./Theme";
+import { useAppContext } from "./hooks/useAppContext";
 
 const App = () => {
-  const { mode } = useDarkMode();
-  const { theme } = useGlobalTheme();
+  const {theme, mode} = useAppContext();
 
   const Theme = useMemo(
     () =>
