@@ -1,5 +1,12 @@
 {
   "general": {
+    "user": {
+      "status": {
+        "online": "Online",
+        "offline": "Offline",
+        "afk": "AFK"
+      }
+    },
     "title": {
       "app": "Chatter",
       "page": {
