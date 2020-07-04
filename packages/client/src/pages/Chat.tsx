@@ -1,20 +1,23 @@
-import Box from "@material-ui/core/Box";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import InboxIcon from "@material-ui/icons/Inbox";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import Box from '@material-ui/core/Box';
+import Paper from '@material-ui/core/Paper';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import InboxIcon from '@material-ui/icons/Inbox';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import AutoSizer from 'react-virtualized-auto-sizer';
+// @ts-ignore
+import { DynamicSizeList, ListChildComponentProps } from 'react-window-dynamic';
 
-import { fakeMessages } from "../assets/dev/fakeMessages";
-import { MyBubble } from "../components/ChatBubble";
-import OthersBubble from "../components/ChatBubble/OthersBubble";
-import AutoSizer from "react-virtualized-auto-sizer";
-import { Message } from "../../../shared/dist/Message";
+import { Message } from '../../../shared/dist/Message';
+import { fakeMessages } from '../assets/dev/fakeMessages';
+import { MyBubble } from '../components/ChatBubble';
+import OthersBubble from '../components/ChatBubble/OthersBubble';
+import { useGlobalStyles } from '../Theme';
+import clsx from 'clsx';
+
 //@ts-ignore
-import { DynamicSizeList, ListChildComponentProps } from "react-window-dynamic";
-import { useGlobalStyles } from "../Theme";
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     window: {
@@ -24,6 +27,26 @@ const useStyles = makeStyles((theme: Theme) =>
         flexDirection: "column",
       },
     },
+    paper: {
+      backgroundColor: theme.palette.background.paper,
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      margin: 0,
+      zIndex: 1,
+    },
+    box: {
+      height: theme.spacing(7),
+      display: "flex",
+      alignItems: "center",
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      width: "100%",
+      borderBottomWidth: "1px",
+      borderBottomColor: theme.palette.divider,
+      borderBottomStyle: "solid"
+    }
   })
 );
 
@@ -46,19 +69,27 @@ const Chat = () => {
   return (
     <Box display="flex" flexDirection="column" flex={1}>
       {id ? (
-        <AutoSizer>
-          {({ height, width }) => (
-            <DynamicSizeList
-              height={height}
-              width={width}
-              itemCount={currentRoom.length}
-              itemData={currentRoom}
-              className={classes.window}
-            >
-              {Conversation}
-            </DynamicSizeList>
-          )}
-        </AutoSizer>
+        <Box display="flex" flexDirection="column" flex={1} position="relative">
+          <Box className={clsx(classes.paper, classes.box)}>
+            <Typography component="p" variant="subtitle2">User {id}</Typography>
+          </Box>
+          <Box className={classes.box} />
+          <Box flex={1}>
+            <AutoSizer>
+              {({ height, width }) => (
+                <DynamicSizeList
+                  height={height}
+                  width={width}
+                  itemCount={currentRoom.length}
+                  itemData={currentRoom}
+                  className={classes.window}
+                >
+                  {Conversation}
+                </DynamicSizeList>
+              )}
+            </AutoSizer>
+          </Box>
+        </Box>
       ) : (
         <Box
           flex={1}
