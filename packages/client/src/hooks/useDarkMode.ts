@@ -1,12 +1,13 @@
 import { useContext, useEffect } from "react";
-import { AppContext, AppState } from "../context/AppContext";
+import { AppContext, AppState, initValue } from "../context/AppContext";
 import { useLocalStorage } from "./useLocalStorage";
 
 export const useDarkMode = () => {
+  const { mode, setMode } = useContext(AppContext);
   const [storedValue, setValue] = useLocalStorage<AppState>({
     key: "app",
+    initValue
   });
-  const { mode, setMode } = useContext(AppContext);
 
   useEffect(() => {
     if (storedValue.mode !== mode) {

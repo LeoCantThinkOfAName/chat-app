@@ -22,13 +22,15 @@ export const AppContext = React.createContext<AppContextType>({
   setTheme: (state) => state,
 });
 
+export const initValue: AppState = {
+  theme: "blue",
+  mode: "light"
+}
+
 export const AppProvider: React.FC = ({ children }) => {
   const [storedValue] = useLocalStorage<AppState>({
     key: "app",
-    initValue: {
-      mode: "light",
-      theme: "blue",
-    },
+    initValue
   });
   const [theme, setTheme] = useState<ThemeTypes>(storedValue.theme);
   const [mode, setMode] = useState<PaletteType>(storedValue.mode);
