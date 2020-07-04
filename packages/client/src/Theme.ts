@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core/styles";
 import { Overrides as OverridesProps } from "@material-ui/core/styles/overrides";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { UserStatus } from '../../shared/src/User';
 import {
   red,
   pink,
@@ -45,7 +46,14 @@ export interface Themes {
   blueGrey: SimplePaletteColorOptions;
 }
 
+export interface ThemeInterface {
+  light: string;
+  main: string;
+  dark: string;
+}
+
 export type ThemeTypes = keyof Themes;
+export type UserStatusColor = Record<UserStatus, string>;
 
 export const Breakpoints: ThemeOptions = {
   breakpoints: {
@@ -75,12 +83,6 @@ export const FlexCenterMixin: CSSProperties = {
   display: "flex",
   justifyContent: "center",
 };
-
-interface ThemeInterface {
-  light: string;
-  main: string;
-  dark: string;
-}
 
 export const AppThemes: Record<keyof Themes, ThemeInterface> = {
   red: {
@@ -172,3 +174,9 @@ export const useGlobalStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+
+export const UserStatusColorScheme: UserStatusColor = {
+  online: green[500],
+  offline: grey[500],
+  afk: orange[500]
+}

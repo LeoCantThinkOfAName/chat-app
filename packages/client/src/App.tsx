@@ -3,7 +3,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import React, { useMemo } from "react";
 
 import Routes from "./routes";
-import { AppThemes, Breakpoints, FlexCenterMixin, Overrides } from "./Theme";
+import { AppThemes, Breakpoints, FlexCenterMixin, Overrides, UserStatusColorScheme } from './Theme';
 import { useAppContext } from "./hooks/useAppContext";
 
 const App = () => {
@@ -18,6 +18,7 @@ const App = () => {
           primary: {
             ...AppThemes[theme],
           },
+          userStatus: UserStatusColorScheme
         },
         ...Breakpoints,
         mixins: {

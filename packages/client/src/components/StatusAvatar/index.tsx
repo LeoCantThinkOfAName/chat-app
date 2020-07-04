@@ -30,17 +30,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     online: {
       "&::after": {
-        borderColor: theme.palette.success.main,
+        borderColor: theme.palette.userStatus.online,
       },
     },
     offline: {
       "&::after": {
-        borderColor: theme.palette.divider,
+        borderColor: theme.palette.userStatus.offline,
       },
     },
     afk: {
       "&::after": {
-        borderColor: theme.palette.warning.main,
+        borderColor: theme.palette.userStatus.afk,
       },
     },
   })
