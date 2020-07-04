@@ -18,6 +18,9 @@
       "page": {
         "home": "Ready To Chat!",
         "chat": "Select Your Contact to Start Chatting!"
+      },
+      "input": {
+        "chatInput": "Type Your Message Here..."
       }
     },
     "menu": {

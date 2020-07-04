@@ -16,8 +16,8 @@ import { MyBubble } from '../components/ChatBubble';
 import OthersBubble from '../components/ChatBubble/OthersBubble';
 import { useGlobalStyles } from '../Theme';
 import clsx from 'clsx';
+import ChatInput from '../components/ChatInput';
 
-//@ts-ignore
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     window: {
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       borderBottomWidth: "1px",
       borderBottomColor: theme.palette.divider,
-      borderBottomStyle: "solid"
+      borderBottomStyle: "solid",
     }
   })
 );
@@ -89,6 +89,7 @@ const Chat = () => {
               )}
             </AutoSizer>
           </Box>
+          <ChatInput/>
         </Box>
       ) : (
         <Box
