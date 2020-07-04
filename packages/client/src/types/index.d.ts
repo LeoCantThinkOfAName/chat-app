@@ -12,4 +12,8 @@ declare module "@material-ui/core/styles/createPalette" {
   export interface Palette {
     userStatus: UserStatusColor;
   }
+
+  export interface PaletteOptions {
+    userStatus: UserStatusColor;
+  }
 }

@@ -10,10 +10,10 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { UserStatusColorScheme } from '../../Theme';
-import StatusAvatar from '../StatusAvatar';
 import { UserStatus } from '../../../../shared/src/User';
 import { useAppContext } from '../../hooks/useAppContext';
+import { UserStatusColorScheme } from '../../Theme';
+import StatusAvatar from '../StatusAvatar';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
