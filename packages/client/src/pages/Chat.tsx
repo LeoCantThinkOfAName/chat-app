@@ -86,7 +86,7 @@ const Chat = () => {
 							)}
 						</AutoSizer>
 					</Box>
-					<ChatInput />
+					<ChatInput id={id} />
 				</Box>
 			) : (
 				<Box flex={1} display="flex" alignItems="center" justifyContent="center">
