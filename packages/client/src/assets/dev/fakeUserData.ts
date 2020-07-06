@@ -8,6 +8,9 @@ export const fakeContacts: User[] = [
     description: "I'm stupid",
     thumbnail: null,
     background: null,
+    password: "",
+    githubId: null,
+    facebookId: null,
   },
   {
     id: 2,
@@ -16,6 +19,9 @@ export const fakeContacts: User[] = [
     description: "I'm idiot",
     thumbnail: null,
     background: null,
+    password: "",
+    githubId: null,
+    facebookId: null,
   },
   {
     id: 3,
@@ -24,6 +30,9 @@ export const fakeContacts: User[] = [
     description: "I'm idiot",
     thumbnail: null,
     background: null,
+    password: "",
+    githubId: null,
+    facebookId: null,
   },
   {
     id: 4,
@@ -32,5 +41,8 @@ export const fakeContacts: User[] = [
     description: "I'm idiot",
     thumbnail: null,
     background: null,
+    password: "",
+    githubId: null,
+    facebookId: null,
   },
 ];
