@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 import Layout from './components/Layout';
 import { PagesProps } from './Pages';
@@ -10,17 +10,29 @@ interface Props {
 }
 
 const Routes: React.FC<Props> = ({ routes }) => {
+	const [ login ] = useState(false);
+
 	return (
 		<Router>
 			<Switch>
 				<Route exact path="/login">
 					<Login />
 				</Route>
-				{routes.map((page) => (
-					<Route exact path={page.path} key={page.path}>
-						<Layout>{page.component}</Layout>
-					</Route>
-				))}
+				{routes.map(
+					(page) =>
+						login ? (
+							<Route exact path={page.path} key={page.path}>
+								<Layout>{page.component}</Layout>
+							</Route>
+						) : (
+							<Redirect
+								key={page.path}
+								to={{
+									pathname: '/login',
+								}}
+							/>
+						)
+				)}
 			</Switch>
 		</Router>
 	);
