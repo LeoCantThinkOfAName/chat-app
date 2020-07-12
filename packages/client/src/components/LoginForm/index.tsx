@@ -11,6 +11,7 @@ import NameField from './NameField';
 import PasswordField from './PasswordField';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import { signup } from '../../utils/singnup';
 
 export interface LoginFormProps {
 	type: 'login' | 'signup';
@@ -50,8 +51,16 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 		[ type, loginState, signupState ]
 	);
 
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		if (type === 'login') {
+		} else {
+			signup(signupState);
+		}
+	};
+
 	return (
-		<form>
+		<form onSubmit={handleSubmit}>
 			<NameField type={type} />
 			<PasswordField type={type} />
 			<Button
@@ -60,6 +69,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 				fullWidth
 				className={passed ? classes.filled : classes.notFilled}
 				disabled={!passed}
+				type="submit"
 			>
 				{t(`general.ui.button.${type}.main`)}
 			</Button>
