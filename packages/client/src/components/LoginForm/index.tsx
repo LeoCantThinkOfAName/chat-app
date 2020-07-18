@@ -3,15 +3,15 @@ import Button from '@material-ui/core/Button';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { LoginContext } from '../../context/LoginContext';
 import NameField from './NameField';
 import PasswordField from './PasswordField';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import { signup } from '../../utils/singnup';
+import { useFeathers } from '../../hooks/useFeathers';
+import { User } from '../../../../shared/src/User';
 
 export interface LoginFormProps {
 	type: 'login' | 'signup';
@@ -34,35 +34,46 @@ export const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
+interface InputProp {
+	name: string;
+	password: string;
+}
+
 const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	const { t } = useTranslation();
-	const [ passed, setPassed ] = useState(false);
-	const { loginState, signupState } = useContext(LoginContext);
+	const [ state, setState ] = useState<{ name: string; password: string } | null>(null);
+	const [ passed, setPassed ] = useState(true);
+	const [ data, error ] = useFeathers<User>({
+		service: 'users',
+		method: type === 'login' ? 'get' : 'create',
+		data: state,
+	});
+	const [ inputs, setInputs ] = useState<InputProp>({
+		name: '',
+		password: '',
+	});
 	const classes = useStyles();
 
 	useEffect(
 		() => {
-			if (type === 'login') {
-				setPassed(loginState.name !== '' && loginState.password !== '');
+			if (inputs.name !== '' && inputs.password !== '') {
+				setPassed(true);
 			} else {
-				setPassed(signupState.name !== '' && signupState.password !== '');
+				setPassed(false);
 			}
 		},
-		[ type, loginState, signupState ]
+		[ inputs ]
 	);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (type === 'login') {
-		} else {
-			signup(signupState);
-		}
+		setState(inputs);
 	};
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<NameField type={type} />
-			<PasswordField type={type} />
+			<NameField inputs={inputs} setter={setInputs} />
+			<PasswordField inputs={inputs} setter={setInputs} />
 			<Button
 				variant="contained"
 				startIcon={passed ? <CheckIcon /> : <CloseIcon />}

@@ -10,4 +10,6 @@ export interface User {
 	githubId: string | null;
 	facebookId: string | null;
 	password: string;
+	createdAt: string;
+	updatedAt: string;
 }
