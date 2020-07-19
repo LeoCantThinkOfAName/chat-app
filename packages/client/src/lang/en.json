@@ -23,6 +23,9 @@
 				"chatInput": "Type Your Message Here..."
 			}
 		},
+		"helperText": {
+			"password_should_be_longer_than_8": "Password should be longer than 8 characters"
+		},
 		"menu": {
 			"Home": "Home",
 			"Settings": "Settings",

@@ -12,10 +12,22 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import { useFeathers } from '../../hooks/useFeathers';
 import { User } from '../../../../shared/src/User';
+import { object as yupObject, string, ValidationError } from 'yup';
+import { useValidator } from '../../hooks/useValidator';
 
 export interface LoginFormProps {
 	type: 'login' | 'signup';
 }
+
+interface InputProp {
+	name: string;
+	password: string;
+}
+
+const schema = yupObject().shape({
+	name: string().required().min(3),
+	password: string().required().min(6),
+})
 
 export const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -34,15 +46,9 @@ export const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-interface InputProp {
-	name: string;
-	password: string;
-}
-
 const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	const { t } = useTranslation();
-	const [ state, setState ] = useState<{ name: string; password: string } | null>(null);
-	const [ passed, setPassed ] = useState(true);
+	const [ state, setState ] = useState<{ name: string; password: string | null }>(null);
 	const [ data, error ] = useFeathers<User>({
 		service: 'users',
 		method: type === 'login' ? 'get' : 'create',
@@ -52,34 +58,28 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 		name: '',
 		password: '',
 	});
+	const validate = useValidator({schema, obj: inputs});
 	const classes = useStyles();
-
-	useEffect(
-		() => {
-			if (inputs.name !== '' && inputs.password !== '') {
-				setPassed(true);
-			} else {
-				setPassed(false);
-			}
-		},
-		[ inputs ]
-	);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setState(inputs);
 	};
 
+	const assignValidate = (key: string): ValidationError[] => {
+		return validate.filter(obj => obj.path === key);
+	}
+
 	return (
 		<form onSubmit={handleSubmit}>
-			<NameField inputs={inputs} setter={setInputs} />
-			<PasswordField inputs={inputs} setter={setInputs} />
+			<NameField inputs={inputs} setter={setInputs} validate={assignValidate("name")} />
+			<PasswordField inputs={inputs} setter={setInputs} validate={assignValidate("password")}/>
 			<Button
 				variant="contained"
-				startIcon={passed ? <CheckIcon /> : <CloseIcon />}
+				startIcon={true ? <CheckIcon /> : <CloseIcon />}
 				fullWidth
-				className={passed ? classes.filled : classes.notFilled}
-				disabled={!passed}
+				className={true ? classes.filled : classes.notFilled}
+				disabled={!true}
 				type="submit"
 			>
 				{t(`general.ui.button.${type}.main`)}
