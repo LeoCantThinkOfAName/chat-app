@@ -34,8 +34,6 @@ const PasswordField: React.FC<FieldProps> = ({ inputs, setter, validate, type })
 		[ inputs, touched, type ]
 	);
 
-	console.log(validate);
-
 	return (
 		<TextField
 			id="login-password"
