@@ -3001,6 +3001,13 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/feathersjs__errors@^3.3.2":
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/@types/feathersjs__errors/-/feathersjs__errors-3.3.2.tgz#41f5f18c5340c5d962b5d40973437bf4a6204c8f"
+  integrity sha512-cLqbbla/uSfxqD7E6dWb8jrBKWIvtfUCB29jaziFgtyLfghcqbITx74XSsLHvlD2taNT5N1QAu0QHWCfdX8tUg==
+  dependencies:
+    "@types/express" "*"
+
 "@types/glob@^7.1.1":
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/@types/glob/-/glob-7.1.2.tgz#06ca26521353a545d94a0adc74f38a59d232c987"

@@ -1,33 +1,26 @@
+import { Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
-import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-
-import NameField from './NameField';
-import PasswordField from './PasswordField';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import { useFeathers } from '../../hooks/useFeathers';
-import { User } from '../../../../shared/src/User';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { object as yupObject, string, ValidationError } from 'yup';
+
+import { User } from '../../../../shared/src/User';
+import { useFeathers } from '../../hooks/useFeathers';
 import { useValidator } from '../../hooks/useValidator';
-
-export interface LoginFormProps {
-	type: 'login' | 'signup';
-}
-
-interface InputProp {
-	name: string;
-	password: string;
-}
+import NameField from './NameField';
+import PasswordField from './PasswordField';
+import { InputProp, LoginFormProps } from './Props';
 
 const schema = yupObject().shape({
 	name: string().required().min(3),
 	password: string().required().min(6),
-})
+});
 
 export const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -43,12 +36,17 @@ export const useStyles = makeStyles((theme: Theme) =>
 		button: {
 			marginBottom: theme.spacing(1.5),
 		},
+		warn: {
+			color: theme.palette.error.main,
+			marginBottom: theme.spacing(1),
+			fontWeight: 600,
+		}
 	})
 );
 
 const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	const { t } = useTranslation();
-	const [ state, setState ] = useState<{ name: string; password: string | null }>(null);
+	const [ state, setState ] = useState<{ name: string; password: string } | null>(null);
 	const [ data, error ] = useFeathers<User>({
 		service: 'users',
 		method: type === 'login' ? 'get' : 'create',
@@ -58,7 +56,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 		name: '',
 		password: '',
 	});
-	const validate = useValidator({schema, obj: inputs});
+	const validate = useValidator({ schema, obj: inputs });
 	const classes = useStyles();
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,19 +65,28 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	};
 
 	const assignValidate = (key: string): ValidationError[] => {
-		return validate.filter(obj => obj.path === key);
-	}
+		return validate.filter((obj) => obj.path === key);
+	};
+
+	console.log(error);
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<NameField inputs={inputs} setter={setInputs} validate={assignValidate("name")} />
-			<PasswordField inputs={inputs} setter={setInputs} validate={assignValidate("password")}/>
+			{
+				error && (
+					<Typography className={classes.warn}>
+						{t(`general.helperText.${error.errors[0].message.split(" ").join("_")}`)}
+					</Typography>
+				)
+			}
+			<NameField inputs={inputs} setter={setInputs} validate={assignValidate('name')} type={type} />
+			<PasswordField inputs={inputs} setter={setInputs} validate={assignValidate('password')} type={type} />
 			<Button
 				variant="contained"
-				startIcon={true ? <CheckIcon /> : <CloseIcon />}
+				startIcon={validate.length !== 0 ? <CloseIcon /> : <CheckIcon />}
 				fullWidth
-				className={true ? classes.filled : classes.notFilled}
-				disabled={!true}
+				className={validate.length !== 0 ? classes.notFilled : classes.filled}
+				disabled={validate.length !== 0}
 				type="submit"
 			>
 				{t(`general.ui.button.${type}.main`)}

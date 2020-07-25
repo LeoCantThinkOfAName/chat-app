@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
 import feathers from '@feathersjs/client';
+import { FeathersErrorJSON } from '@feathersjs/errors';
+import { useEffect, useState } from 'react';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT as string;
 
@@ -9,9 +10,9 @@ interface Prop {
 	data: any;
 }
 
-export const useFeathers = <T>({ service, method, data }: Prop) => {
+export const useFeathers = <T>({ service, method, data }: Prop): [T | null, FeathersErrorJSON | null] => {
 	const [ state, setState ] = useState<T | null>(null);
-	const [ error, setError ] = useState(null);
+	const [ error, setError ] = useState<FeathersErrorJSON | null>(null);
 
 	useEffect(
 		() => {

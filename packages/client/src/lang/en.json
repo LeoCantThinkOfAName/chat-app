@@ -24,7 +24,11 @@
 			}
 		},
 		"helperText": {
-			"password_should_be_longer_than_8": "Password should be longer than 8 characters"
+			"password_should_be_longer_than_8": "Password should be longer than 8 characters",
+			"field_is_required": "Field is required",
+			"need_at_least_3_characters": "Need at least 3 characters",
+			"need_at_least_6_characters": "Need at least 6 characters",
+			"name_must_be_unique": "Name has been taken"
 		},
 		"menu": {
 			"Home": "Home",

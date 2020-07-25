@@ -53,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@types/feathersjs__errors": "^3.3.2",
     "@types/react-router-dom": "^5.1.5",
     "@types/react-virtualized-auto-sizer": "^1.0.0",
     "@types/react-window": "^1.8.2",

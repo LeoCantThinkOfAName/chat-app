@@ -4,19 +4,17 @@ import TextField from '@material-ui/core/TextField';
 import FingerPrint from '@material-ui/icons/Fingerprint';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ValidationError } from 'yup';
 
-interface Prop {
-	inputs: { name: string; password: string };
-	setter: React.Dispatch<React.SetStateAction<{ name: string; password: string }>>;
-	validate: ValidationError[];
-}
+import { useStyles } from '.';
+import { FieldProps } from './Props';
 
-const PasswordField: React.FC<Prop> = ({ inputs, setter, validate }) => {
+const PasswordField: React.FC<FieldProps> = ({ inputs, setter, validate, type }) => {
+	const classes = useStyles();
 	const { t } = useTranslation();
 	const [ show, setShow ] = useState(false);
+	const [ touched, setTouched ] = useState(false);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setter({ ...inputs, password: e.target.value });
@@ -26,16 +24,28 @@ const PasswordField: React.FC<Prop> = ({ inputs, setter, validate }) => {
 		setShow(!show);
 	};
 
+	useEffect(
+		() => {
+			if (type === 'signup' && !touched && inputs.password !== '') {
+				setTouched(true);
+				console.log(touched);
+			}
+		},
+		[ inputs, touched, type ]
+	);
+
+	console.log(validate);
+
 	return (
 		<TextField
 			id="login-password"
 			label="Password"
 			name="password"
 			autoComplete="off"
-			error={false}
-			helperText={validate[0] ? validate[0].message : ''}
+			error={type === 'signup' && touched && validate[0] ? true : false}
+			helperText={touched && validate[0] ? t(validate[0].message) : ''}
 			fullWidth
-			className={''}
+			className={classes.input}
 			type={show ? 'text' : 'password'}
 			value={inputs.password}
 			onChange={handleChange}

@@ -1,19 +1,29 @@
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import React from 'react';
-import { ValidationError } from 'yup';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-interface Prop {
-	inputs: { name: string; password: string };
-	setter: React.Dispatch<React.SetStateAction<{ name: string; password: string }>>;
-	validate: ValidationError[];
-}
+import { useStyles } from '.';
+import { FieldProps } from './Props';
 
-const NameField: React.FC<Prop> = ({ inputs, setter, validate }) => {
+const NameField: React.FC<FieldProps> = ({ inputs, setter, validate, type }) => {
+	const {t} = useTranslation();
+	const classes = useStyles();
+	const [ touched, setTouched ] = useState(false);
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setter({ ...inputs, name: e.target.value });
 	};
+
+	useEffect(
+		() => {
+			if (type === 'signup' && !touched && inputs.name !== '') {
+				setTouched(true);
+				console.log(touched);
+			}
+		},
+		[ inputs, touched, type ]
+	);
 
 	return (
 		<TextField
@@ -21,9 +31,9 @@ const NameField: React.FC<Prop> = ({ inputs, setter, validate }) => {
 			label="User Name"
 			name="name"
 			fullWidth
-			error={false}
-			helperText={validate[0] ? validate[0].message : ''}
-			className={''}
+			error={type === 'signup' && touched && validate[0] ? true : false}
+			helperText={touched && validate[0] ? t(validate[0].message) : ''}
+			className={classes.input}
 			value={inputs.name}
 			onChange={handleChange}
 			InputProps={{
