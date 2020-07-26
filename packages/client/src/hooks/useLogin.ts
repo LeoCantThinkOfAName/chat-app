@@ -17,11 +17,7 @@ export const useLogin = (): [{data: Response | null, loading: boolean, error: an
   const [data, setData] = useState<Response | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
-  const [login, setLogin] = useState<LoginObj>({
-    name: "",
-    password: "",
-    strategy: "local"
-  });
+  const [login, setLogin] = useState<LoginObj>({ name: "", password: "", strategy: "local" });
 
   useEffect(() => {
     if(login.name !== "") {
@@ -39,7 +35,7 @@ export const useLogin = (): [{data: Response | null, loading: boolean, error: an
           setLoading(false);
         });
     }
-  }, [login])
+  }, [login]);
 
   return [{data, loading, error}, setLogin];
 }

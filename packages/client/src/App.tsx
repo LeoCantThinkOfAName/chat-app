@@ -6,6 +6,7 @@ import { useAppContext } from './hooks/useAppContext';
 import { Pages } from './Pages';
 import Routes from './routes';
 import { AppThemes, Breakpoints, FlexCenterMixin, Overrides, UserStatusColorScheme } from './Theme';
+import { UserProvider } from './context/UserContext';
 
 const App = () => {
 	const { theme, mode } = useAppContext();
@@ -31,8 +32,10 @@ const App = () => {
 
 	return (
 		<ThemeProvider theme={Theme}>
-			<CssBaseline />
-			<Routes routes={Pages} />
+			<UserProvider>
+				<CssBaseline />
+				<Routes routes={Pages} />
+			</UserProvider>
 		</ThemeProvider>
 	);
 };

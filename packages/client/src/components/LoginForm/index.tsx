@@ -6,19 +6,17 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import React, { useEffect, useState, useRef } from 'react';
-import { useContext } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { object as yupObject, string, ValidationError } from 'yup';
 
 import { User } from '../../../../shared/src/User';
 import { UserContext } from '../../context/UserContext';
-import { useLogin } from '../../hooks/useLogin';
-import { useRest } from '../../hooks/useRest';
-import { useValidator } from '../../hooks/useValidator';
+import { useLogin, useRest, useValidator } from '../../hooks';
 import NameField from './NameField';
 import PasswordField from './PasswordField';
 import { InputProp, LoginFormProps } from './Props';
+import { useHistory } from 'react-router-dom';
 
 const schema = yupObject().shape({
 	name: string().required().min(3),
@@ -58,6 +56,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	const [validate, setValidateConfig] = useValidator();
 	const { setUser, setToken } = useContext(UserContext);
 	const [loginData, setLogin] = useLogin();
+	const history = useHistory();
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -97,6 +96,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 			if(data?.token) {
 				setToken(data.token);
 				setUser(data.user);
+				history.push("/");
 			}
 		},
 		[ loginData, setUser, setToken ]
