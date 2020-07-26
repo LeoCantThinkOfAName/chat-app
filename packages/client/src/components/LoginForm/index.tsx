@@ -6,19 +6,19 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { object as yupObject, string, ValidationError } from 'yup';
 
 import { User } from '../../../../shared/src/User';
 import { UserContext } from '../../context/UserContext';
-import { useFeathers } from '../../hooks/useFeathers';
+import { useLogin } from '../../hooks/useLogin';
+import { useRest } from '../../hooks/useRest';
 import { useValidator } from '../../hooks/useValidator';
 import NameField from './NameField';
 import PasswordField from './PasswordField';
 import { InputProp, LoginFormProps } from './Props';
-import { authentication } from '../../utils/autnetication';
 
 const schema = yupObject().shape({
 	name: string().required().min(3),
@@ -42,43 +42,65 @@ export const useStyles = makeStyles((theme: Theme) =>
 		warn: {
 			color: theme.palette.error.main,
 			marginBottom: theme.spacing(1),
-		}
+		},
 	})
 );
 
 const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
+	const classes = useStyles();
+	const inter = useRef<any>(null);
 	const { t } = useTranslation();
-	const [ state, setState ] = useState<{ name: string; password: string } | null>(null);
-	const [ data, error ] = useFeathers<User>({
-		service: 'users',
-		method: 'create',
-		data: state,
-	});
+	const [ fetchData, setRequest ] = useRest<User>();
 	const [ inputs, setInputs ] = useState<InputProp>({
 		name: '',
 		password: '',
 	});
-	const validate = useValidator({ schema, obj: inputs });
-	const {token, setUser, setToken} = useContext(UserContext);
-	const classes = useStyles();
+	const [validate, setValidateConfig] = useValidator();
+	const { setUser, setToken } = useContext(UserContext);
+	const [loginData, setLogin] = useLogin();
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if(type === "login") {
-			const data = authentication({name: inputs.name, password: inputs.password});
-			console.log(data);
-		} else {
-			setState(inputs);
+		if(!loginData.loading && !fetchData.loading) {
+			const {name, password} = inputs;
+			if (type === 'login') {
+				setLogin({ name, password, strategy: "local" });
+			} else {
+				setRequest({
+					service: "users",
+					method: "create",
+					data: { name, password }
+				})
+			}
 		}
 	};
 
 	useEffect(() => {
-		console.log("data changed");
-	}, [data]);
+		clearTimeout(inter.current);
+
+		inter.current = setTimeout(() => {
+			setValidateConfig({ schema, obj: inputs });
+		}, 300)
+	}, [inputs, setValidateConfig])
 
 	useEffect(() => {
-		console.log("token changed");
-	}, [token]);
+		const { data } = fetchData;
+		if(data?.id) {
+			const { name, password } = inputs;
+			setLogin({ name, password, strategy: "local" });
+		}
+	}, [fetchData, setLogin, inputs])
+
+	useEffect(
+		() => {
+			const { data } = loginData;
+			if(data?.token) {
+				setToken(data.token);
+				setUser(data.user);
+			}
+		},
+		[ loginData, setUser, setToken ]
+	);
 
 	const assignValidate = (key: string): ValidationError[] => {
 		return validate.filter((obj) => obj.path === key);
@@ -86,13 +108,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			{
-				error && (
-					<Typography className={classes.warn}>
-						{t(`general.helperText.${error.errors[0].message.split(" ").join("_")}`)}
-					</Typography>
-				)
-			}
+			{fetchData.error && (
+				<Typography className={classes.warn}>
+					{t(`general.helperText.${fetchData.error.errors[0].message.split(' ').join('_')}`)}
+				</Typography>
+			)}
 			<NameField inputs={inputs} setter={setInputs} validate={assignValidate('name')} type={type} />
 			<PasswordField inputs={inputs} setter={setInputs} validate={assignValidate('password')} type={type} />
 			<Button

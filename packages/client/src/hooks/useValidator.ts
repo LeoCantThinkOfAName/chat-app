@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect, Dispatch, SetStateAction} from 'react';
 import {ObjectSchema, Shape, ValidationError, setLocale} from 'yup';
 
 interface Props<T extends Object> {
@@ -15,26 +15,24 @@ setLocale({
   },
 })
 
-export const useValidator = <T>({schema, obj}: Props<T>) => {
-  const timeout = useRef<any>();
-  const [state, setState] = useState<ValidationError[]>([]);
+export const useValidator = <T>(): [ValidationError[], Dispatch<SetStateAction<Props<T> | null>>] => {
+  const [validate, setValidate] = useState<ValidationError[]>([]);
+  const [config, setConfig] = useState<Props<T> | null>(null);
 
   useEffect(() => {
-    clearTimeout(timeout.current);
-    timeout.current = setTimeout(() => {
-      if(obj) {
-        schema.validate(obj, {
-          abortEarly: false
-        })
-        .then(valid => {
-          setState([]);
-        })
-        .catch(err => {
-          setState(err.inner)
-        })
-      }
-    }, 300);
-  }, [obj, schema]);
+    if(config) {
+      const { schema, obj } = config;
+      schema.validate(obj, {
+        abortEarly: false
+      })
+      .then(valid => {
+        setValidate([]);
+      })
+      .catch(err => {
+        setValidate(err.inner)
+      })
+    }
+  }, [config]);
   
-  return state;
+  return [validate, setConfig];
 }

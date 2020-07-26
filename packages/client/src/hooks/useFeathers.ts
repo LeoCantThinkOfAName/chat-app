@@ -35,3 +35,5 @@ export const useFeathers = <T>({ service, method, data }: Prop): [T | null, Feat
 
 	return [ state, error ];
 };
+
+
