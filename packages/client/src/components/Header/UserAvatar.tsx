@@ -1,3 +1,4 @@
+import { User } from '@chat-app/shared';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -7,7 +8,7 @@ import MenuList from '@material-ui/core/MenuList';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { UserStatus } from '../../../../shared/src/User';
@@ -16,7 +17,6 @@ import { app } from '../../feathersClient';
 import { useRest } from '../../hooks';
 import { UserStatusColorScheme } from '../../Theme';
 import StatusAvatar from '../StatusAvatar';
-import { User } from '@chat-app/shared';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,10 +62,6 @@ const UserAvatar = () => {
 
   const handleSelect = (e: React.MouseEvent<EventTarget>, status: UserStatus) => {
     handleClose(e);
-    setUser({
-      ...user,
-      status,
-    });
     setRequest({
       service: "users",
       method: "patch",
@@ -81,6 +77,14 @@ const UserAvatar = () => {
     setUser(initValue.user);
     setToken("");
   }
+
+  useEffect(() => {
+    if(fetchData.data && fetchData.data.status !== user.status) {
+      setUser({
+        ...user, status: fetchData.data.status
+      })
+    }
+  }, [fetchData, setUser, user])
 
   return (
     <React.Fragment>
