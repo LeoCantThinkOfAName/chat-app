@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { ThemeTypes } from "../Theme";
 import { PaletteType } from "@material-ui/core";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { UserStatus } from '../../../shared/src/User';
 
 export interface AppState {
   mode: PaletteType;
