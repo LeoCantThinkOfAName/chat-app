@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom';
 
 import LoginForm from '../components/LoginForm';
 import { UserContext } from '../context/UserContext';
+import Loading from '../components/Loading';
 
 const Login = () => {
 	const [ tab, setTab ] = useState(0);
@@ -30,7 +31,7 @@ const Login = () => {
 		<React.Fragment>
 			{
 				loading ? (
-					<div>loading...</div>
+					<Loading/>
 				) : (
 					user ? null : (
 						<Box p={2} height="100%" display="flex" alignItems="center" justifyContent="center">
