@@ -1,8 +1,9 @@
-import { useValidator } from './useValidator';
-import { useLogin } from './useLogin';
-import { useRest } from './useRest';
-import { useLocalStorage } from './useLocalStorage';
 import { useAppContext } from './useAppContext';
+import { useLocalStorage } from './useLocalStorage';
+import { useLogin } from './useLogin';
+import { useReauthentication } from './useReauthentication';
+import { useRest } from './useRest';
+import { useValidator } from './useValidator';
 
 
 export {
@@ -10,5 +11,6 @@ export {
   useLogin,
   useRest,
   useLocalStorage,
-  useAppContext
+  useAppContext,
+  useReauthentication
 };

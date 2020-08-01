@@ -1,5 +1,5 @@
-import React, {useContext, useEffect} from 'react';
-import { BrowserRouter as Router, Redirect, Route, Switch, useHistory } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
 import Layout from './components/Layout';
 import { UserContext } from './context/UserContext';
@@ -12,31 +12,30 @@ interface Props {
 
 interface ProtectedProps {
 	page: PagesProps;
-	redir: boolean;
 }
 
-const ProtectedRoute: React.FC<ProtectedProps> = ({ page, redir }) => redir ? (
-	<Redirect to="/login"/>
-) : (
-	<Route exact path={page.path}>
-		<Layout>{page.component}</Layout>
-	</Route>
-
-)
-const Routes: React.FC<Props> = ({ routes }) => {
+const ProtectedRoute: React.FC<ProtectedProps> = ({ page }) => {
 	const { token } = useContext(UserContext);
 
+	return (
+		!token ? (
+			<Redirect to="/login" />
+		) : (
+			<Route exact path={page.path}>
+				<Layout>{page.component}</Layout>
+			</Route>
+		)
+	)
+}
+
+const Routes: React.FC<Props> = ({ routes }) => {
 	return (
 		<Router>
 			<Switch>
 				<Route exact path="/login">
 					<Login />
 				</Route>
-				{routes.map(
-					(page) => (
-						<ProtectedRoute key={page.path} page={page} redir={token === null}/>
-					)
-				)}
+				{routes.map((page) => <ProtectedRoute key={page.path} page={page} />)}
 			</Switch>
 		</Router>
 	);

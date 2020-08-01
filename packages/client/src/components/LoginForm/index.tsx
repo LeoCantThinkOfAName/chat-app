@@ -8,6 +8,7 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 import { object as yupObject, string, ValidationError } from 'yup';
 
 import { User } from '../../../../shared/src/User';
@@ -16,7 +17,6 @@ import { useLogin, useRest, useValidator } from '../../hooks';
 import NameField from './NameField';
 import PasswordField from './PasswordField';
 import { InputProp, LoginFormProps } from './Props';
-import { useHistory } from 'react-router-dom';
 
 const schema = yupObject().shape({
 	name: string().required().min(3),
@@ -79,7 +79,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 
 		inter.current = setTimeout(() => {
 			setValidateConfig({ schema, obj: inputs });
-		}, 300)
+		}, 300);
+
+		return () => {
+			clearTimeout(inter.current);
+		}
 	}, [inputs, setValidateConfig])
 
 	useEffect(() => {
@@ -99,7 +103,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 				history.push("/");
 			}
 		},
-		[ loginData, setUser, setToken ]
+		[ loginData, setUser, setToken, history ]
 	);
 
 	const assignValidate = (key: string): ValidationError[] => {
