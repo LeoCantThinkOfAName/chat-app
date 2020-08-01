@@ -7,13 +7,14 @@ import MenuList from '@material-ui/core/MenuList';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { UserStatus } from '../../../../shared/src/User';
 import { useAppContext } from '../../hooks/useAppContext';
 import { UserStatusColorScheme } from '../../Theme';
 import StatusAvatar from '../StatusAvatar';
+import { UserContext } from '../../context/UserContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,6 +34,7 @@ const UserAvatar = () => {
   const avatarRef = useRef<HTMLButtonElement>(null);
   const {status, setStatus} = useAppContext();
   const [open, setOpen] = useState(false);
+  const {user} = useContext(UserContext);
 
   const handleListKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "Tab") {
@@ -64,7 +66,7 @@ const UserAvatar = () => {
   return (
     <React.Fragment>
       <Button ref={avatarRef} onClick={handleClick} className={classes.button}>
-        <StatusAvatar name="U" status={status} />
+        <StatusAvatar name={user.name[0]} status={status} />
       </Button>
       <Popper
         open={open}

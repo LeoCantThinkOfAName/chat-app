@@ -1,7 +1,9 @@
-import {useState, useEffect} from 'react';
-import {app} from '../feathersClient';
 import { User } from '@chat-app/shared';
 import jwt_decode from 'jwt-decode';
+import { useEffect, useState } from 'react';
+
+import { initValue } from '../context/UserContext';
+import { app } from '../feathersClient';
 
 interface JWTObj {
   aud: string;
@@ -13,19 +15,18 @@ interface JWTObj {
 }
 
 interface StateInterface {
-  token: string | null;
-  user: User | null;
+  token: string;
+  user: User;
 }
 
 export const useReauthentication = (): [
-  string | null, User | null, boolean
+  string, User, boolean
 ] => {
   const [loading, setLoading] = useState<boolean>(true);
   const [state, setState] = useState<StateInterface>({
-    token: null,
-    user: null
+    token: "",
+    user: initValue.user,
   });
-
 
   useEffect(() => {
     const storedToken = localStorage.getItem("feathers-jwt");

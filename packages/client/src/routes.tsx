@@ -18,7 +18,7 @@ const ProtectedRoute: React.FC<ProtectedProps> = ({ page }) => {
 	const { token } = useContext(UserContext);
 
 	return (
-		!token ? (
+		token === "" ? (
 			<Redirect to="/login" />
 		) : (
 			<Route exact path={page.path}>

@@ -4,45 +4,55 @@ import { useReauthentication } from '../hooks';
 
 
 export interface UserState {
-  user: User | null;
-  token: string | null;
+  user: User;
+  token: string;
   loading: boolean;
 }
 
 export interface UserSetState {
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  setToken: React.Dispatch<React.SetStateAction<string | null>>;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export type UserContextType = UserState & UserSetState;
 
-export const UserContext = React.createContext<UserContextType>({
-  user: null,
-  token: null,
+export const initValue: UserState = {
+  user: {
+    id: 0,
+    name: "",
+    status: "offline",
+    description: "",
+    thumbnail: null,
+    background: null,
+    githubId: null,
+    facebookId: null,
+    password: "",
+    createdAt: "",
+    updatedAt: "",
+  },
+  token: "",
   loading: true,
+}
+
+export const UserContext = React.createContext<UserContextType>({
+  user: initValue.user,
+  token: initValue.token,
+  loading: initValue.loading,
   setUser: (state) => state,
   setToken: (state) => state,
 });
 
-export const initValue: UserState = {
-  user: null,
-  token: null,
-  loading: true,
-}
-
 export const UserProvider: React.FC = ({ children }) => {
   const [getToken, getUser, loading] = useReauthentication();
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<User>(initValue.user);
+  const [token, setToken] = useState<string>(initValue.token);
 
   useEffect(() => {
-    if(getToken !== null && getUser !== null) {
+    if(getToken !== "" && getUser.id !== 0) {
       setUser(getUser);
-      setToken(getToken)
+      setToken(getToken);
     }
   }, [getToken, getUser]);
-
-  console.log(user, token, loading);
 
   return (
     <UserContext.Provider

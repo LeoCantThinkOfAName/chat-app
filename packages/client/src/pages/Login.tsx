@@ -7,9 +7,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
+import Loading from '../components/Loading';
 import LoginForm from '../components/LoginForm';
 import { UserContext } from '../context/UserContext';
-import Loading from '../components/Loading';
 
 const Login = () => {
 	const [ tab, setTab ] = useState(0);
@@ -22,7 +22,7 @@ const Login = () => {
 	};
 
 	useEffect(() => {
-		if(user) {
+		if(user.id !== 0) {
 			history.push("/");
 		}
 	}, [user, history]);
@@ -33,7 +33,7 @@ const Login = () => {
 				loading ? (
 					<Loading/>
 				) : (
-					user ? null : (
+					 user.id !== 0 ? null : (
 						<Box p={2} height="100%" display="flex" alignItems="center" justifyContent="center">
 							<Paper>
 								<Box p={2} maxWidth="90vw" width="400px" textAlign="center">
