@@ -65,9 +65,7 @@ const UserAvatar = () => {
     setRequest({
       service: "users",
       method: "patch",
-      data: {
-        status
-      },
+      data: { status },
       id: user.id
     })
   }
