@@ -1,10 +1,12 @@
-import {app} from '../feathersClient';
-import { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+
+import { app } from '../feathersClient';
 
 interface RequestProp {
 	service: string;
 	method: 'all' | 'find' | 'get' | 'create' | 'update' | 'patch' | 'remove';
-	data: any;
+  data: any;
+  id?: number;
 }
 
 export const useRest = <T>(): [{
@@ -18,14 +20,15 @@ export const useRest = <T>(): [{
   const [request, setRequest] = useState<RequestProp>({
     service: "",
     method: "all",
-    data: null
+    data: null,
+    id: undefined
   });
 
   useEffect(() => {
     if(request.data) {
       setLoading(true);
       const service = app.service(request.service);
-      service[request.method](request.data)
+      service[request.method](request.id, request.data)
         .then((response: T) => {
           setData(response);
           setLoading(false);

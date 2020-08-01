@@ -7,15 +7,16 @@ import MenuList from '@material-ui/core/MenuList';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import React, { useRef, useState, useContext } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { UserStatus } from '../../../../shared/src/User';
-import { useAppContext } from '../../hooks/useAppContext';
+import { initValue, UserContext } from '../../context/UserContext';
+import { app } from '../../feathersClient';
+import { useRest } from '../../hooks';
 import { UserStatusColorScheme } from '../../Theme';
 import StatusAvatar from '../StatusAvatar';
-import { UserContext, initValue } from '../../context/UserContext';
-import {app} from '../../feathersClient';
+import { User } from '@chat-app/shared';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,9 +34,9 @@ const UserAvatar = () => {
   const {t} = useTranslation();
   const classes = useStyles();
   const avatarRef = useRef<HTMLButtonElement>(null);
-  const {status, setStatus} = useAppContext();
   const [open, setOpen] = useState(false);
   const {user, setUser, setToken} = useContext(UserContext);
+  const [fetchData, setRequest] = useRest<User>();
 
   const handleListKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "Tab") {
@@ -59,9 +60,20 @@ const UserAvatar = () => {
     setOpen(!open);
   };
 
-  const handleSelect = (e: React.MouseEvent<EventTarget>, status: string) => {
+  const handleSelect = (e: React.MouseEvent<EventTarget>, status: UserStatus) => {
     handleClose(e);
-    setStatus(status as UserStatus);
+    setUser({
+      ...user,
+      status,
+    });
+    setRequest({
+      service: "users",
+      method: "patch",
+      data: {
+        status
+      },
+      id: user.id
+    })
   }
 
   const handleLogout = () => {
@@ -73,7 +85,7 @@ const UserAvatar = () => {
   return (
     <React.Fragment>
       <Button ref={avatarRef} onClick={handleClick} className={classes.button}>
-        <StatusAvatar name={user.name[0]} status={status} />
+        <StatusAvatar name={user.name[0]} status={user.status} />
       </Button>
       <Popper
         open={open}
@@ -97,8 +109,8 @@ const UserAvatar = () => {
                   id="user-status-menu"
                   onKeyDown={handleListKeyDown}
                 >
-                  {Object.keys(UserStatusColorScheme).map(key => (
-                    <MenuItem key={key} onClick={(e) => handleSelect(e, key)}>
+                  {Object.keys(UserStatusColorScheme).map((key: string) => (
+                    <MenuItem key={key} onClick={(e) => handleSelect(e, key as UserStatus)}>
                       <Box height={15} width={15} bgcolor={UserStatusColorScheme[key as UserStatus]} borderRadius="50%" mr={1}/>{t(`general.user.status.${key}`)}
                     </MenuItem>
                   ))}
