@@ -14,7 +14,8 @@ import { UserStatus } from '../../../../shared/src/User';
 import { useAppContext } from '../../hooks/useAppContext';
 import { UserStatusColorScheme } from '../../Theme';
 import StatusAvatar from '../StatusAvatar';
-import { UserContext } from '../../context/UserContext';
+import { UserContext, initValue } from '../../context/UserContext';
+import {app} from '../../feathersClient';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +35,7 @@ const UserAvatar = () => {
   const avatarRef = useRef<HTMLButtonElement>(null);
   const {status, setStatus} = useAppContext();
   const [open, setOpen] = useState(false);
-  const {user} = useContext(UserContext);
+  const {user, setUser, setToken} = useContext(UserContext);
 
   const handleListKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "Tab") {
@@ -61,6 +62,12 @@ const UserAvatar = () => {
   const handleSelect = (e: React.MouseEvent<EventTarget>, status: string) => {
     handleClose(e);
     setStatus(status as UserStatus);
+  }
+
+  const handleLogout = () => {
+    app.logout();
+    setUser(initValue.user);
+    setToken("");
   }
 
   return (
@@ -95,6 +102,10 @@ const UserAvatar = () => {
                       <Box height={15} width={15} bgcolor={UserStatusColorScheme[key as UserStatus]} borderRadius="50%" mr={1}/>{t(`general.user.status.${key}`)}
                     </MenuItem>
                   ))}
+                  <MenuItem onClick={handleLogout}>
+                    <Box height={15} width={15} bgcolor="red" borderRadius="50%" mr={1}/>
+                    {t(`general.user.logout`)}
+                  </MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>

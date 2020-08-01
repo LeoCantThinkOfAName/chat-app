@@ -1,6 +1,7 @@
 {
 	"general": {
 		"user": {
+			"logout": "Log out",
 			"status": {
 				"online": "Online",
 				"offline": "Offline",

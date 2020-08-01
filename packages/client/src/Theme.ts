@@ -178,5 +178,5 @@ export const useGlobalStyles = makeStyles((theme: Theme) =>
 export const UserStatusColorScheme: UserStatusColor = {
   online: green[500],
   offline: grey[500],
-  afk: orange[500]
+  afk: orange[500],
 }
