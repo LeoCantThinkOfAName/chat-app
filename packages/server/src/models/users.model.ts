@@ -82,6 +82,9 @@ export default function(app: Application) {
 	(users as any).associate = function(models: any) {
 		// Define associations here
 		// See http://docs.sequelizejs.com/en/latest/docs/associations/
+		const { users, users_users } = models;
+		this.belongsToMany(users, { through: users_users, as: 'friend', foreignKey: 'friend_id' });
+		this.belongsToMany(users, { through: users_users, as: 'user', foreignKey: 'user_id' });
 	};
 
 	return users;

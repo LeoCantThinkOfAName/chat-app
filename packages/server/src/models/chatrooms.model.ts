@@ -5,8 +5,8 @@ import { Application } from '../declarations';
 
 export default function(app: Application) {
 	const sequelizeClient: Sequelize = app.get('sequelizeClient');
-	const messages = sequelizeClient.define(
-		'messages',
+	const chatrooms = sequelizeClient.define(
+		'chatrooms',
 		{
 			id: {
 				type: DataTypes.INTEGER,
@@ -14,10 +14,6 @@ export default function(app: Application) {
 				primaryKey: true,
 				autoIncrement: true,
 				unique: true,
-			},
-			message: {
-				type: DataTypes.TEXT,
-				allowNull: false,
 			},
 			createdAt: {
 				type: DataTypes.DATE,
@@ -40,10 +36,10 @@ export default function(app: Application) {
 	);
 
 	// eslint-disable-next-line no-unused-vars
-	(messages as any).associate = function(models: any) {
+	(chatrooms as any).associate = function(models: any) {
 		// Define associations here
 		// See http://docs.sequelizejs.com/en/latest/docs/associations/
 	};
 
-	return messages;
+	return chatrooms;
 }
