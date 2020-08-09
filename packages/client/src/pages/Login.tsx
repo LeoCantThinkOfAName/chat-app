@@ -24,7 +24,7 @@ const Login = () => {
 	useEffect(
 		() => {
 			if (user.id !== 0) {
-				history.push('/');
+				history.push('/profile');
 			}
 		},
 		[ user, history ]
