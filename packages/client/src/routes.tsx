@@ -17,16 +17,8 @@ interface ProtectedProps {
 const ProtectedRoute: React.FC<ProtectedProps> = ({ page }) => {
 	const { token } = useContext(UserContext);
 
-	return (
-		token === "" ? (
-			<Redirect to="/login" />
-		) : (
-			<Route exact path={page.path}>
-				<Layout>{page.component}</Layout>
-			</Route>
-		)
-	)
-}
+	return token === '' ? <Redirect to="/login" /> : <Route exact path={page.path} component={page.component} />;
+};
 
 const Routes: React.FC<Props> = ({ routes }) => {
 	return (
@@ -35,7 +27,7 @@ const Routes: React.FC<Props> = ({ routes }) => {
 				<Route exact path="/login">
 					<Login />
 				</Route>
-				{routes.map((page) => <ProtectedRoute key={page.path} page={page} />)}
+				<Layout>{routes.map((page) => <ProtectedRoute key={page.path} page={page} />)}</Layout>
 			</Switch>
 		</Router>
 	);
