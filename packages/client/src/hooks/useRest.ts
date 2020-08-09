@@ -5,40 +5,65 @@ import { app } from '../feathersClient';
 interface RequestProp {
 	service: string;
 	method: 'all' | 'find' | 'get' | 'create' | 'update' | 'patch' | 'remove';
-  data: any;
-  id?: number;
+	data?: any;
+	id?: number;
+	query?: {
+		[key: string]: number | string;
+	};
 }
 
-export const useRest = <T>(): [{
-  data: T | null;
-  loading: boolean;
-  error: any
-}, Dispatch<SetStateAction<RequestProp>>] => {
-  const [data, setData] = useState<T | null>(null);
-  const [error , setError] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [request, setRequest] = useState<RequestProp>({
-    service: "",
-    method: "all",
-    data: null,
-    id: undefined
-  });
+export const useRest = <T>(): [
+	{
+		data: T | null;
+		loading: boolean;
+		error: any;
+	},
+	Dispatch<SetStateAction<RequestProp>>
+] => {
+	const [ data, setData ] = useState<T | null>(null);
+	const [ error, setError ] = useState<any>(null);
+	const [ loading, setLoading ] = useState<boolean>(false);
+	const [ request, setRequest ] = useState<RequestProp>({
+		service: '',
+		method: 'all',
+		data: null,
+		id: undefined,
+		query: undefined,
+	});
 
-  useEffect(() => {
-    if(request.data) {
-      setLoading(true);
-      const service = app.service(request.service);
-      service[request.method](request.id, request.data)
-        .then((response: T) => {
-          setData(response);
-          setLoading(false);
-        })
-        .catch((err: any) => {
-          setError(err);
-          setLoading(false);
-        })
-    }
-  }, [request]);
+	useEffect(
+		() => {
+			if (request.data || request.query) {
+				const { service, method, data, id, query } = request;
+				const Service = app.service(service);
 
-  return [{data, loading, error}, setRequest];
-}
+				setLoading(true);
+
+				if (query) {
+					Service[method]({ query })
+						.then((response: T) => {
+							setData(response);
+							setLoading(false);
+						})
+						.catch((err: any) => {
+							setError(err);
+							setLoading(false);
+						});
+				} else {
+					Service[method](id, data)
+						.then((response: T) => {
+							setData(response);
+							setLoading(false);
+						})
+						.catch((err: any) => {
+							setError(err);
+							setLoading(false);
+						});
+				}
+			}
+		},
+		[ request ]
+	);
+
+	return [ { data, loading, error }, setRequest ];
+};

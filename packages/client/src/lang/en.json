@@ -60,6 +60,9 @@
 				"darkMode": "Toggle Dark Mode"
 			}
 		},
+		"errors": {
+			"errorOccured": "Error occured! Please try again later."
+		},
 		"languages": {
 			"en": "English",
 			"zh-TW": "Traditional Chinese (Taiwan)"

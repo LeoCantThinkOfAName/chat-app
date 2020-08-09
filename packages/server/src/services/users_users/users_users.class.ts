@@ -20,6 +20,7 @@ export class UsersUsers extends Service {
 	}
 
 	get(id: Id, params: Params) {
+		console.log(id);
 		return super.get(id, params);
 	}
 
