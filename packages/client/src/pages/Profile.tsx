@@ -94,7 +94,7 @@ const Profile = () => {
 	const { user } = useContext(UserContext);
 	const { id } = useParams();
 	const { t } = useTranslation();
-	const [ open, setOpen ] = useState(true);
+	const [ open, setOpen ] = useState(false);
 
 	const handleClick = () => {
 		setOpen(!open);

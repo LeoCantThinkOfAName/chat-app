@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme: Theme) =>
 			outline: 'none',
 			marginRight: theme.spacing(1),
 		},
+		svg: {
+			color: theme.palette.common.white,
+		},
 	})
 );
 
@@ -71,11 +74,10 @@ export const ProfileInputs: React.FC<Props> = ({ initValue, column, fontSize, mi
 
 	useEffect(
 		() => {
-			if (fetchData && fetchData.data && inputRef.current) {
-				if (inputRef.current.innerText !== user.name) {
-					setUser({ ...user, [column]: inputRef.current.innerText });
-				}
+			if (fetchData && fetchData.data && inputRef.current && inputRef.current.innerText !== user[column]) {
+				setUser({ ...user, [column]: inputRef.current.innerText });
 			}
+			console.log('update');
 		},
 		[ fetchData, user, column, setUser ]
 	);
@@ -113,7 +115,7 @@ export const ProfileInputs: React.FC<Props> = ({ initValue, column, fontSize, mi
 				{initValue}
 			</div>
 			<IconButton onClick={handleClick} aria-label="toggle password visibility" size="small">
-				<Create fontSize="small" />
+				<Create fontSize="small" className={classes.svg} />
 			</IconButton>
 		</div>
 	);
