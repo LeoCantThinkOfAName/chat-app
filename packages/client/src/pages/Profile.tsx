@@ -5,12 +5,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ForumIcon from '@material-ui/icons/Forum';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 
 import { UserContext } from '../context/UserContext';
 import { ProfileInputs } from '../components/Inputs/index';
+import { UploadModal } from '../components/Modal/index';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -76,6 +77,9 @@ const useStyles = makeStyles((theme: Theme) =>
 		icon: {
 			marginRight: theme.spacing(1),
 		},
+		svg: {
+			color: theme.palette.common.white,
+		},
 		thumbnailBtn: {
 			backgroundColor: 'rgba(0, 0, 0, 0.5)',
 			position: 'absolute',
@@ -86,10 +90,15 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Profile = () => {
-	const { user } = useContext(UserContext);
 	const classes = useStyles();
+	const { user } = useContext(UserContext);
 	const { id } = useParams();
 	const { t } = useTranslation();
+	const [ open, setOpen ] = useState(true);
+
+	const handleClick = () => {
+		setOpen(!open);
+	};
 
 	return (
 		<div className={classes.root}>
@@ -115,8 +124,9 @@ const Profile = () => {
 								aria-label="upload picture"
 								component="span"
 								className={classes.thumbnailBtn}
+								onClick={handleClick}
 							>
-								<PhotoCamera fontSize="small" />
+								<PhotoCamera fontSize="small" className={classes.svg} />
 							</IconButton>
 						)}
 					</Box>
@@ -145,6 +155,8 @@ const Profile = () => {
 					</Link>
 				</MenuItem>
 			)}
+
+			{!id && <UploadModal open={open} closeHandler={() => setOpen(!open)} />}
 		</div>
 	);
 };
