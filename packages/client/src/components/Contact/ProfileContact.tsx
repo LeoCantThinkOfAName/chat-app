@@ -36,7 +36,6 @@ const Contact: React.FC<Prop> = ({ contact }) => {
 const ProfileContact: React.FC = () => {
 	const { t } = useTranslation();
 	const { user } = useContext(UserContext);
-	// const [ { loading, data, error }, setRequest ] = useRest<Friend[]>();
 	const { data, error } = useSWR(SWRKey.Friends, async () =>
 		fetcher<Friend[]>({
 			service: SWRKey.Friends,
