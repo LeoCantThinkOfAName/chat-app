@@ -33,6 +33,7 @@
     "react-window-dynamic": "^1.8.0-alpha.2",
     "react-window-infinite-loader": "^1.0.5",
     "socket.io": "^2.3.0",
+    "swr": "^0.3.0",
     "typescript": "~3.7.2",
     "yup": "^0.29.1"
   },

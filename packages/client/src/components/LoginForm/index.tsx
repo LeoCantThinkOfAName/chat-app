@@ -53,54 +53,60 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 		name: '',
 		password: '',
 	});
-	const [validate, setValidateConfig] = useValidator();
+	const [ validate, setValidateConfig ] = useValidator();
 	const { setUser, setToken } = useContext(UserContext);
-	const [loginData, setLogin] = useLogin();
+	const [ loginData, setLogin ] = useLogin();
 	const history = useHistory();
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if(!loginData.loading && !fetchData.loading) {
-			const {name, password} = inputs;
+		if (!loginData.loading && !fetchData.loading) {
+			const { name, password } = inputs;
 			if (type === 'login') {
-				setLogin({ name, password, strategy: "local" });
+				setLogin({ name, password, strategy: 'local' });
 			} else {
 				setRequest({
-					service: "users",
-					method: "create",
-					data: { name, password }
-				})
+					service: 'users',
+					method: 'create',
+					data: { name, password },
+				});
 			}
 		}
 	};
 
-	useEffect(() => {
-		clearTimeout(inter.current);
-
-		inter.current = setTimeout(() => {
-			setValidateConfig({ schema, obj: inputs });
-		}, 300);
-
-		return () => {
+	useEffect(
+		() => {
 			clearTimeout(inter.current);
-		}
-	}, [inputs, setValidateConfig])
 
-	useEffect(() => {
-		const { data } = fetchData;
-		if(data?.id) {
-			const { name, password } = inputs;
-			setLogin({ name, password, strategy: "local" });
-		}
-	}, [fetchData, setLogin, inputs])
+			inter.current = setTimeout(() => {
+				setValidateConfig({ schema, obj: inputs });
+			}, 300);
+
+			return () => {
+				clearTimeout(inter.current);
+			};
+		},
+		[ inputs, setValidateConfig ]
+	);
+
+	useEffect(
+		() => {
+			const { data } = fetchData;
+			if (data && data.id) {
+				const { name, password } = inputs;
+				setLogin({ name, password, strategy: 'local' });
+			}
+		},
+		[ fetchData, setLogin, inputs ]
+	);
 
 	useEffect(
 		() => {
 			const { data } = loginData;
-			if(data?.token) {
+			if (data && data.token) {
 				setToken(data.token);
 				setUser(data.user);
-				history.push("/");
+				history.push('/');
 			}
 		},
 		[ loginData, setUser, setToken, history ]

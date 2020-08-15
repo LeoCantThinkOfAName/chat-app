@@ -3,8 +3,6 @@ import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Create from '@material-ui/icons/Create';
 import ForumIcon from '@material-ui/icons/Forum';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import React, { useContext } from 'react';
@@ -93,10 +91,6 @@ const Profile = () => {
 	const { id } = useParams();
 	const { t } = useTranslation();
 
-	const handleClick = () => {
-		console.log('clicked');
-	};
-
 	return (
 		<div className={classes.root}>
 			<div
@@ -127,8 +121,10 @@ const Profile = () => {
 						)}
 					</Box>
 
-					<ProfileInputs initValue={user.name} fontSize="1.75rem" />
+					<ProfileInputs column="name" initValue={user.name} fontSize="1.75rem" />
 					<ProfileInputs
+						column="description"
+						minimum={0}
 						initValue={user.description ? user.description : "What's in your mind?"}
 						fontSize="0.9rem"
 					/>

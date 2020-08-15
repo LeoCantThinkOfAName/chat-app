@@ -1,11 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { User } from '@chat-app/shared';
 import IconButton from '@material-ui/core/IconButton';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Create from '@material-ui/icons/Create';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+
+import { UserContext } from '../../context/UserContext';
+import { useRest } from '../../hooks';
 
 interface Props {
 	initValue: string;
 	fontSize: string;
+	minimum?: number;
+	column: keyof User;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -22,10 +28,12 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-export const ProfileInputs: React.FC<Props> = ({ initValue, fontSize }) => {
+export const ProfileInputs: React.FC<Props> = ({ initValue, column, fontSize, minimum = 3 }) => {
 	const classes = useStyles();
 	const inputRef = useRef<HTMLDivElement>(null);
+	const { user, setUser } = useContext(UserContext);
 	const [ editable, setEditable ] = useState(false);
+	const [ fetchData, setRequest ] = useRest<User>();
 
 	const handleClick = () => {
 		setEditable(true);
@@ -36,10 +44,20 @@ export const ProfileInputs: React.FC<Props> = ({ initValue, fontSize }) => {
 
 	const handleBlur = () => {
 		setEditable(false);
-		console.log('over');
-		if (inputRef.current) {
-			if (inputRef.current.innerText.length < 3) {
-				inputRef.current.innerText = initValue;
+		const { current } = inputRef;
+		if (current) {
+			if (current.innerText.length < minimum) {
+				current.innerText = initValue;
+				return;
+			}
+
+			if (current.innerText !== initValue) {
+				setRequest({
+					service: 'users',
+					method: 'patch',
+					data: { [column]: current.innerText },
+					id: user.id,
+				});
 			}
 		}
 	};
@@ -50,6 +68,17 @@ export const ProfileInputs: React.FC<Props> = ({ initValue, fontSize }) => {
 			handleBlur();
 		}
 	};
+
+	useEffect(
+		() => {
+			if (fetchData && fetchData.data && inputRef.current) {
+				if (inputRef.current.innerText !== user.name) {
+					setUser({ ...user, [column]: inputRef.current.innerText });
+				}
+			}
+		},
+		[ fetchData, user, column, setUser ]
+	);
 
 	useEffect(
 		() => {

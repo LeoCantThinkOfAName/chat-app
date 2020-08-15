@@ -1,12 +1,15 @@
 import { Friend } from '@chat-app/shared';
+import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
-import React, { useEffect } from 'react';
-
-import { useRest } from '../../hooks/useRest';
-import BaseContact from './BaseContact';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import Box from '@material-ui/core/Box';
+import useSWR from 'swr';
+
+import { UserContext } from '../../context/UserContext';
+import { SWRKey } from '../../SWRKeys';
+import { fetcher } from '../../utils/fetcher';
+import BaseContact from './BaseContact';
 
 interface Prop {
 	contact: Friend;
@@ -32,19 +35,19 @@ const Contact: React.FC<Prop> = ({ contact }) => {
 
 const ProfileContact: React.FC = () => {
 	const { t } = useTranslation();
-	const [ { loading, data, error }, setRequest ] = useRest<Friend[]>();
-
-	useEffect(() => {
-		setRequest({
-			method: 'find',
-			service: 'friends',
+	const { user } = useContext(UserContext);
+	// const [ { loading, data, error }, setRequest ] = useRest<Friend[]>();
+	const { data, error } = useSWR(SWRKey.Friends, async () =>
+		fetcher<Friend[]>({
+			service: SWRKey.Friends,
 			query: {
-				user_id: 1,
+				user_id: user.id,
 			},
-		});
-	}, []);
+			method: 'find',
+		})
+	);
 
-	if (loading) {
+	if (!data) {
 		return (
 			<Box textAlign="center">
 				<CircularProgress size="2rem" />
@@ -55,7 +58,7 @@ const ProfileContact: React.FC = () => {
 	} else if (data) {
 		return (
 			<React.Fragment>
-				{data.map((contact) => <Contact key={contact.friend_id} contact={contact} />)}
+				{data && data.map((contact) => <Contact contact={contact} key={contact.user_id} />)}
 			</React.Fragment>
 		);
 	} else {
