@@ -121,13 +121,19 @@ const Profile = () => {
 						)}
 					</Box>
 
-					<ProfileInputs column="name" initValue={user.name} fontSize="1.75rem" />
-					<ProfileInputs
-						column="description"
-						minimum={0}
-						initValue={user.description ? user.description : "What's in your mind?"}
-						fontSize="0.9rem"
-					/>
+					{!id ? (
+						<React.Fragment>
+							<ProfileInputs column="name" initValue={user.name} fontSize="1.75rem" />
+							<ProfileInputs
+								column="description"
+								minimum={0}
+								initValue={user.description ? user.description : "What's in your mind?"}
+								fontSize="0.9rem"
+							/>
+						</React.Fragment>
+					) : (
+						<React.Fragment>hello</React.Fragment>
+					)}
 				</div>
 			</div>
 			{id && (

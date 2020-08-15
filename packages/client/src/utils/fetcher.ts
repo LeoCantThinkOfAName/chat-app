@@ -8,7 +8,6 @@ interface Props {
 
 export const fetcher = async <T>({ service, query, method = 'get' }: Props): Promise<T | null> => {
 	const Service = app.service(service);
-	console.log(Service);
 
 	const data = await Service[method]({ query })
 		.then((response: T) => {

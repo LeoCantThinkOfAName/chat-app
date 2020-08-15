@@ -58,7 +58,7 @@ const ProfileContact: React.FC = () => {
 	} else if (data) {
 		return (
 			<React.Fragment>
-				{data && data.map((contact) => <Contact contact={contact} key={contact.user_id} />)}
+				{data && data.map((contact) => <Contact contact={contact} key={contact.friend_id} />)}
 			</React.Fragment>
 		);
 	} else {
