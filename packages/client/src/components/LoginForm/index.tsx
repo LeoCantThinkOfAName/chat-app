@@ -47,7 +47,6 @@ export const useStyles = makeStyles((theme: Theme) =>
 const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	const classes = useStyles();
 	const inter = useRef<any>(null);
-	const _isMounted = useRef(true);
 	const { t } = useTranslation();
 	const [ fetchData, setRequest ] = useRest<User>();
 	const [ inputs, setInputs ] = useState<InputProp>({
@@ -59,15 +58,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	const [ loginData, setLogin ] = useLogin();
 	const history = useHistory();
 
-	useEffect(() => {
-		return () => {
-			_isMounted.current = false;
-		};
-	}, []);
-
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (!loginData.loading && !fetchData.loading && _isMounted.current) {
+		if (!loginData.loading && !fetchData.loading) {
 			const { email, password } = inputs;
 			if (type === 'login') {
 				setLogin({ email, password, strategy: 'local' });
@@ -86,12 +79,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 		() => {
 			clearTimeout(inter.current);
 
-			if (_isMounted.current) {
-				console.log('do things 1');
-				inter.current = setTimeout(() => {
-					setValidateConfig({ schema, obj: inputs });
-				}, 500);
-			}
+			inter.current = setTimeout(() => {
+				setValidateConfig({ schema, obj: inputs });
+			}, 500);
 
 			return () => {
 				clearTimeout(inter.current);
@@ -103,8 +93,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	useEffect(
 		() => {
 			const { data } = fetchData;
-			if (data && data.id && _isMounted.current) {
-				console.log('do things 2');
+			if (data && data.id) {
 				const { email, password } = inputs;
 				setLogin({ email, password, strategy: 'local' });
 			}
@@ -115,8 +104,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	useEffect(
 		() => {
 			const { data } = loginData;
-			if (data && data.token && _isMounted.current) {
-				console.log('do things 3');
+			if (data && data.token) {
 				setToken(data.token);
 				setUser(data.user);
 			}

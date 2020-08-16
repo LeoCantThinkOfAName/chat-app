@@ -17,21 +17,14 @@ export const useLogin = (): [
 	{ data: Response | null; loading: boolean; error: any },
 	Dispatch<SetStateAction<LoginObj>>
 ] => {
-	const _isMounted = useRef(true);
 	const [ data, setData ] = useState<Response | null>(null);
 	const [ loading, setLoading ] = useState<boolean>(false);
 	const [ error, setError ] = useState<any>(null);
 	const [ login, setLogin ] = useState<LoginObj>({ email: '', password: '', strategy: 'local' });
 
-	useEffect(() => {
-		return () => {
-			_isMounted.current = false;
-		};
-	}, []);
-
 	useEffect(
 		() => {
-			if (login.email !== '' && _isMounted.current && loading === false) {
+			if (login.email !== '' && loading === false) {
 				setLoading(true);
 				app
 					.authenticate(login)
