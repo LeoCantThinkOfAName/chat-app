@@ -28,7 +28,6 @@ const PasswordField: React.FC<FieldProps> = ({ inputs, setter, validate, type })
 		() => {
 			if (type === 'signup' && !touched && inputs.password !== '') {
 				setTouched(true);
-				console.log(touched);
 			}
 		},
 		[ inputs, touched, type ]

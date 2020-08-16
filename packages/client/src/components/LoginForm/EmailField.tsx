@@ -19,7 +19,6 @@ const EmailField: React.FC<FieldProps> = ({ inputs, setter, validate, type }) =>
 		() => {
 			if (type === 'signup' && !touched && inputs.email !== '') {
 				setTouched(true);
-				console.log(touched);
 			}
 		},
 		[ inputs, touched, type ]

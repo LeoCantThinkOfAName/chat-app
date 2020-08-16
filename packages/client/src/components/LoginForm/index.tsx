@@ -47,6 +47,7 @@ export const useStyles = makeStyles((theme: Theme) =>
 const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	const classes = useStyles();
 	const inter = useRef<any>(null);
+	const _isMounted = useRef(true);
 	const { t } = useTranslation();
 	const [ fetchData, setRequest ] = useRest<User>();
 	const [ inputs, setInputs ] = useState<InputProp>({
@@ -58,9 +59,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	const [ loginData, setLogin ] = useLogin();
 	const history = useHistory();
 
+	useEffect(() => {
+		return () => {
+			_isMounted.current = false;
+		};
+	}, []);
+
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (!loginData.loading && !fetchData.loading) {
+		if (!loginData.loading && !fetchData.loading && _isMounted.current) {
 			const { email, password } = inputs;
 			if (type === 'login') {
 				setLogin({ email, password, strategy: 'local' });
@@ -75,12 +82,16 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	};
 
 	useEffect(
+		// effect hook for validation
 		() => {
 			clearTimeout(inter.current);
 
-			inter.current = setTimeout(() => {
-				setValidateConfig({ schema, obj: inputs });
-			}, 300);
+			if (_isMounted.current) {
+				console.log('do things 1');
+				inter.current = setTimeout(() => {
+					setValidateConfig({ schema, obj: inputs });
+				}, 500);
+			}
 
 			return () => {
 				clearTimeout(inter.current);
@@ -92,7 +103,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	useEffect(
 		() => {
 			const { data } = fetchData;
-			if (data && data.id) {
+			if (data && data.id && _isMounted.current) {
+				console.log('do things 2');
 				const { email, password } = inputs;
 				setLogin({ email, password, strategy: 'local' });
 			}
@@ -103,10 +115,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	useEffect(
 		() => {
 			const { data } = loginData;
-			if (data && data.token) {
+			if (data && data.token && _isMounted.current) {
+				console.log('do things 3');
 				setToken(data.token);
 				setUser(data.user);
-				history.push('/');
 			}
 		},
 		[ loginData, setUser, setToken, history ]

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState, useRef } from 'react';
 
 import { app } from '../feathersClient';
 
@@ -20,6 +20,7 @@ export const useRest = <T>(): [
 	},
 	Dispatch<SetStateAction<RequestProp>>
 ] => {
+	const _isMounted = useRef(true);
 	const [ data, setData ] = useState<T | null>(null);
 	const [ error, setError ] = useState<any>(null);
 	const [ loading, setLoading ] = useState<boolean>(false);
@@ -31,9 +32,15 @@ export const useRest = <T>(): [
 		query: undefined,
 	});
 
+	useEffect(() => {
+		return () => {
+			_isMounted.current = false;
+		};
+	}, []);
+
 	useEffect(
 		() => {
-			if (request.data || request.query) {
+			if (request.data || (request.query && _isMounted.current)) {
 				const { service, method, data, id, query } = request;
 				const Service = app.service(service);
 
