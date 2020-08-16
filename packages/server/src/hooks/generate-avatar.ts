@@ -5,8 +5,9 @@ import { Hook, HookContext } from '@feathersjs/feathers';
 export default (options = {}): Hook => {
 	const api = 'https://api.adorable.io/avatars/285/';
 	return async (context: HookContext) => {
-		const { data } = context;
-		if (data.thumbnail === null || data.thumbnail === '' || data.thumbnail === undefined) {
+		const { data, method } = context;
+
+		if (method === 'create' || (method === 'patch' && data.thumbnail === '')) {
 			context.data = {
 				...data,
 				thumbnail: `${api}.${data.email}.png`,

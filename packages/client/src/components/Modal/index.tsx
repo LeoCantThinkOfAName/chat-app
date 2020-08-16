@@ -3,7 +3,7 @@ import Modal from './Modal';
 
 export interface Props {
 	open: boolean;
-	closeHandler: () => void;
+	closeHandler: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export { Modal, UploadModal };

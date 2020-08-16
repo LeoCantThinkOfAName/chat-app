@@ -12,6 +12,7 @@ import { Link, useParams } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { ProfileInputs } from '../components/Inputs/index';
 import { UploadModal } from '../components/Modal/index';
+import { User } from '@chat-app/shared';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -83,8 +84,8 @@ const useStyles = makeStyles((theme: Theme) =>
 		thumbnailBtn: {
 			backgroundColor: 'rgba(0, 0, 0, 0.5)',
 			position: 'absolute',
-			top: 0,
-			right: 0,
+			top: theme.spacing(0.5),
+			right: theme.spacing(0.5),
 		},
 	})
 );
@@ -95,8 +96,10 @@ const Profile = () => {
 	const { id } = useParams();
 	const { t } = useTranslation();
 	const [ open, setOpen ] = useState(false);
+	const [ target, setTarget ] = useState<keyof User>('thumbnail');
 
-	const handleClick = () => {
+	const handleClick = (targetKey: keyof User) => {
+		setTarget(targetKey);
 		setOpen(!open);
 	};
 
@@ -109,6 +112,17 @@ const Profile = () => {
 				}}
 			>
 				<div className={classes.mask} />
+				{!id && (
+					<IconButton
+						size="small"
+						aria-label="upload picture"
+						component="span"
+						className={classes.thumbnailBtn}
+						onClick={() => handleClick('background')}
+					>
+						<PhotoCamera fontSize="small" className={classes.svg} />
+					</IconButton>
+				)}
 				<div className={classes.content}>
 					<Box position="relative">
 						<Avatar
@@ -124,7 +138,7 @@ const Profile = () => {
 								aria-label="upload picture"
 								component="span"
 								className={classes.thumbnailBtn}
-								onClick={handleClick}
+								onClick={() => handleClick('thumbnail')}
 							>
 								<PhotoCamera fontSize="small" className={classes.svg} />
 							</IconButton>
@@ -156,7 +170,7 @@ const Profile = () => {
 				</MenuItem>
 			)}
 
-			{!id && <UploadModal open={open} closeHandler={() => setOpen(!open)} />}
+			{!id && <UploadModal open={open} closeHandler={setOpen} target={target} />}
 		</div>
 	);
 };

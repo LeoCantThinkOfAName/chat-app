@@ -40,12 +40,12 @@ export default function(app: Application) {
 				defaultValue: null,
 			},
 			thumbnail: {
-				type: DataTypes.STRING,
+				type: DataTypes.TEXT,
 				allowNull: true,
 				defaultValue: null,
 			},
 			background: {
-				type: DataTypes.STRING,
+				type: DataTypes.TEXT,
 				allowNull: true,
 				defaultValue: null,
 			},

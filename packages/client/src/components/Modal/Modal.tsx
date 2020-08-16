@@ -31,7 +31,7 @@ const Modal: React.FC<Props> = ({ open, closeHandler, children }) => {
 	const classes = useStyles();
 
 	const handleClose = () => {
-		closeHandler();
+		closeHandler(false);
 	};
 
 	return (

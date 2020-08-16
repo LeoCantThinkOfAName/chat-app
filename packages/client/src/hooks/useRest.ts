@@ -69,6 +69,7 @@ export const useRest = <T>(): [
 				} else {
 					Service[method](id, data)
 						.then((response: T) => {
+							console.log(data);
 							setData(response);
 							setLoading(false);
 						})
