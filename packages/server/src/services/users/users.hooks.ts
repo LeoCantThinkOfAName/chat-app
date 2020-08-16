@@ -1,5 +1,6 @@
 import * as authentication from '@feathersjs/authentication';
 import * as local from '@feathersjs/authentication-local';
+import createNameFromEmail from '../../hooks/create-name-from-email';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -10,7 +11,7 @@ export default {
 		all: [],
 		find: [ authenticate('jwt') ],
 		get: [ authenticate('jwt') ],
-		create: [ hashPassword('password') ],
+		create: [hashPassword('password'), createNameFromEmail()],
 		update: [ hashPassword('password'), authenticate('jwt') ],
 		patch: [ hashPassword('password'), authenticate('jwt') ],
 		remove: [ authenticate('jwt') ],

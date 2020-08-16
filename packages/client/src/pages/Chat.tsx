@@ -11,7 +11,6 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import { DynamicSizeList, ListChildComponentProps } from 'react-window-dynamic';
 
 import { Message } from '../../../shared/dist/Message';
-import { fakeMessages } from '../assets/dev/fakeMessages';
 import { MyBubble } from '../components/ChatBubble';
 import OthersBubble from '../components/ChatBubble/OthersBubble';
 import ChatInput from '../components/ChatInput';
@@ -49,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-const Conversation = ({ index, data }: ListChildComponentProps) => {
+export const Conversation = ({ index, data }: ListChildComponentProps) => {
 	const context: Message = data[index];
 	return context.user.id === 1 ? <MyBubble message={context} /> : <OthersBubble message={context} />;
 };
@@ -59,7 +58,7 @@ const Chat = () => {
 	const { id } = useParams();
 	const classes = useStyles();
 	const globalClasses = useGlobalStyles();
-	const currentRoom = fakeMessages[id];
+	// const currentRoom = fakeMessages[id];
 
 	return (
 		<Box display="flex" flexDirection="column" flex={1}>
@@ -74,15 +73,16 @@ const Chat = () => {
 					<Box flex={1}>
 						<AutoSizer>
 							{({ height, width }) => (
-								<DynamicSizeList
-									height={height}
-									width={width}
-									itemCount={currentRoom.length}
-									itemData={currentRoom}
-									className={classes.window}
-								>
-									{Conversation}
-								</DynamicSizeList>
+								// <DynamicSizeList
+								// 	height={height}
+								// 	width={width}
+								// 	itemCount={currentRoom.length}
+								// 	itemData={currentRoom}
+								// 	className={classes.window}
+								// >
+								// 	{Conversation}
+								// </DynamicSizeList>
+								<div />
 							)}
 						</AutoSizer>
 					</Box>

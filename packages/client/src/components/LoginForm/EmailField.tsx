@@ -7,17 +7,17 @@ import { useTranslation } from 'react-i18next';
 import { useStyles } from '.';
 import { FieldProps } from './Props';
 
-const NameField: React.FC<FieldProps> = ({ inputs, setter, validate, type }) => {
-	const {t} = useTranslation();
+const EmailField: React.FC<FieldProps> = ({ inputs, setter, validate, type }) => {
+	const { t } = useTranslation();
 	const classes = useStyles();
 	const [ touched, setTouched ] = useState(false);
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setter({ ...inputs, name: e.target.value });
+		setter({ ...inputs, email: e.target.value });
 	};
 
 	useEffect(
 		() => {
-			if (type === 'signup' && !touched && inputs.name !== '') {
+			if (type === 'signup' && !touched && inputs.email !== '') {
 				setTouched(true);
 				console.log(touched);
 			}
@@ -27,14 +27,15 @@ const NameField: React.FC<FieldProps> = ({ inputs, setter, validate, type }) => 
 
 	return (
 		<TextField
-			id="login-username"
-			label="User Name"
-			name="name"
+			id="login-email"
+			label="User Email"
+			name="email"
+			type="email"
 			fullWidth
 			error={type === 'signup' && touched && validate[0] ? true : false}
 			helperText={touched && validate[0] ? t(validate[0].message) : ''}
 			className={classes.input}
-			value={inputs.name}
+			value={inputs.email}
 			onChange={handleChange}
 			InputProps={{
 				startAdornment: (
@@ -47,4 +48,4 @@ const NameField: React.FC<FieldProps> = ({ inputs, setter, validate, type }) => 
 	);
 };
 
-export default NameField;
+export default EmailField;

@@ -18,10 +18,15 @@ export default function(app: Application) {
 				autoIncrement: true,
 				unique: true,
 			},
-			name: {
+			email: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				unique: true,
+			},
+			name: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				defaultValue: '',
 			},
 			status: {
 				type: DataTypes.ENUM,

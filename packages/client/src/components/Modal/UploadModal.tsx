@@ -1,15 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react';
-import Modal from './Modal';
-import { Props } from './index';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import LinkIcon from '@material-ui/icons/Link';
-import Input from '@material-ui/core/Input';
-import { useTranslation } from 'react-i18next';
-import { useRest } from '../../hooks/useRest';
-import { UserContext } from '../../context/UserContext';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import InputLabel from '@material-ui/core/InputLabel';
+import LinkIcon from '@material-ui/icons/Link';
+import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { Props } from '.';
 import { User } from '../../../../shared/src/User';
+import { UserContext } from '../../context/UserContext';
+import { useRest } from '../../hooks/useRest';
+import Modal from './Modal';
 
 const UploadModal: React.FC<Props> = ({ open, closeHandler }) => {
 	const { t } = useTranslation();

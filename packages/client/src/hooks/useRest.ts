@@ -49,6 +49,16 @@ export const useRest = <T>(): [
 							setError(err);
 							setLoading(false);
 						});
+				} else if (method === 'create') {
+					Service[method](data)
+						.then((response: T) => {
+							setData(response);
+							setLoading(false);
+						})
+						.catch((err: any) => {
+							setError(err);
+							setLoading(false);
+						});
 				} else {
 					Service[method](id, data)
 						.then((response: T) => {

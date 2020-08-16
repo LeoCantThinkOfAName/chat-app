@@ -14,13 +14,13 @@ import { object as yupObject, string, ValidationError } from 'yup';
 import { User } from '../../../../shared/src/User';
 import { UserContext } from '../../context/UserContext';
 import { useLogin, useRest, useValidator } from '../../hooks';
-import NameField from './NameField';
+import EmailField from './EmailField';
 import PasswordField from './PasswordField';
 import { InputProp, LoginFormProps } from './Props';
 
 const schema = yupObject().shape({
-	name: string().required().min(3),
-	password: string().required().min(6),
+	email: string().email().required(),
+	password: string().required().min(5),
 });
 
 export const useStyles = makeStyles((theme: Theme) =>
@@ -50,7 +50,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	const { t } = useTranslation();
 	const [ fetchData, setRequest ] = useRest<User>();
 	const [ inputs, setInputs ] = useState<InputProp>({
-		name: '',
+		email: '',
 		password: '',
 	});
 	const [ validate, setValidateConfig ] = useValidator();
@@ -61,14 +61,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (!loginData.loading && !fetchData.loading) {
-			const { name, password } = inputs;
+			const { email, password } = inputs;
 			if (type === 'login') {
-				setLogin({ name, password, strategy: 'local' });
+				setLogin({ email, password, strategy: 'local' });
 			} else {
 				setRequest({
 					service: 'users',
 					method: 'create',
-					data: { name, password },
+					data: { email, password },
 				});
 			}
 		}
@@ -93,8 +93,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 		() => {
 			const { data } = fetchData;
 			if (data && data.id) {
-				const { name, password } = inputs;
-				setLogin({ name, password, strategy: 'local' });
+				const { email, password } = inputs;
+				setLogin({ email, password, strategy: 'local' });
 			}
 		},
 		[ fetchData, setLogin, inputs ]
@@ -123,7 +123,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type = 'login' }) => {
 					{t(`general.helperText.${fetchData.error.errors[0].message.split(' ').join('_')}`)}
 				</Typography>
 			)}
-			<NameField inputs={inputs} setter={setInputs} validate={assignValidate('name')} type={type} />
+			<EmailField inputs={inputs} setter={setInputs} validate={assignValidate('email')} type={type} />
 			<PasswordField inputs={inputs} setter={setInputs} validate={assignValidate('password')} type={type} />
 			<Button
 				variant="contained"

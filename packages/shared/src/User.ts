@@ -2,6 +2,7 @@ export type UserStatus = 'online' | 'offline' | 'afk';
 
 export interface User {
 	id: number;
+	email: string;
 	name: string;
 	status: UserStatus;
 	description: string;
